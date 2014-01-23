@@ -1,7 +1,15 @@
 "use strict";
 var assert = require("assert");
 var should = require('should');
-var cell = require("../cell.js");
+var cell = require("../cell.js").cell;
+var world = require("../cell.js").world;
+
+describe('world', function() {
+  it('should have live cells', function() {
+    world = world([cell(false, 0, 0), cell(true, 0, 1)]);
+    world.live_cells().length.should.equal(1);
+  });
+});
 
 describe('cell', function () {
 
