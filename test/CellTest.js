@@ -1,8 +1,8 @@
 "use strict";
 var assert = require("assert");
 var should = require('should');
-var cell = require("../cell.js").cell;
-var world = require("../cell.js").world;
+var cell = require("../cell.js");
+var world = require("../world.js");
 
 describe('world', function() {
   it('should have live cells', function() {
