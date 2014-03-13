@@ -12,4 +12,13 @@ describe('world', function() {
     newWorld.find(1,0).state().should.equal(true);
   });
 
+  // todo
+//  it('should parse multiple rows pattern into cells', function() {
+//    var rowPattern = "010010\n000100";
+//    var newWorld = world(rowPattern);
+//    newWorld.find(0,0).state().should.equal(false);
+//    newWorld.find(1,0).state().should.equal(true);
+//    newWorld.find(0,1).state().should.equal(false);
+//  });
+
 });

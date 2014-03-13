@@ -3,6 +3,7 @@ var assert = require("assert");
 var should = require('should');
 var cell = require("../cell.js");
 
+
 describe('cell', function () {
 
   var deadCell, liveCell;
