@@ -2,14 +2,6 @@
 var assert = require("assert");
 var should = require('should');
 var cell = require("../cell.js");
-var world = require("../world.js");
-
-describe('world', function() {
-  it('should have live cells', function() {
-    world = world([cell(false, 0, 0), cell(true, 0, 1)]);
-    world.live_cells().length.should.equal(1);
-  });
-});
 
 describe('cell', function () {
 
