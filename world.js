@@ -4,15 +4,24 @@
   var us = require('underscore');
   var cell = require('./cell.js');
 
-  module.exports = function (boardPattern) {
-    var rows = boardPattern.split('\n');
-    var board = us.map(rows, function (rowPattern, rowIndex) {
-      var row = rowPattern.split('');
-      return us.map(row, function (cellState, columnIndex) {
-        return cell(cellState === "1", columnIndex, rowIndex);
-      });
+  function createCell(state, x, y) {
+    return cell(state, x, y);
+  }
+
+  function parseRowPattern(rowPattern, rowIndex) {
+    var rowCellStates = rowPattern.split('');
+    return us.map(rowCellStates, function (cellState, columnIndex) {
+      return createCell(cellState === "1", columnIndex, rowIndex);
     });
-    board = us.flatten(board);
+  }
+
+  function parseBoardPattern(boardPattern) {
+    return us.chain(boardPattern.split('\n'))
+      .map(parseRowPattern).flatten().value();
+  }
+
+  module.exports = function (boardPattern) {
+    var board = parseBoardPattern(boardPattern);
     return {
       find: function (x, y) {
         return us.find(board, function (cell) {

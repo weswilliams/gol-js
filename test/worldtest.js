@@ -2,9 +2,12 @@
 
 var world = require("../world.js");
 var cell = require("../cell.js");
-var us = require('underscore');
 
 describe('world', function() {
+  it("should handle an empty world", function() {
+    world("").find(0,0).state().should.equal(false);
+  });
+
   it('should parse a row pattern into cells', function() {
     var rowPattern = "010010";
     var newWorld = world(rowPattern);

@@ -1,9 +1,12 @@
 (function() {
   "use strict";
-  module.exports = function() {
+  var us = require("underscore");
+  module.exports = function(cell, board) {
     return {
       numberAlive: function() {
-        return 0;
+        return us.filter(board, function(possibleNeighbor) {
+          return possibleNeighbor.state() && !cell.isEqual(possibleNeighbor);
+        }).length;
       }
     }
   };
