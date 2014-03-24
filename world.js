@@ -3,6 +3,8 @@
 
   var us = require('underscore');
   var cell = require('./cell.js');
+  var rules = require('./rules.js');
+  var neighbors = require('./neighbors.js');
 
   function createCell(state, x, y) {
     return cell(state, x, y);
@@ -22,11 +24,32 @@
 
   module.exports = function (boardPattern) {
     var board = parseBoardPattern(boardPattern);
+    function find(x, y) {
+      return us.find(board, function (cell) {
+        return cell.x === x && cell.y === y;
+      }) || cell(false, x, y);
+    }
     return {
-      find: function (x, y) {
-        return us.find(board, function (cell) {
-          return cell.x === x && cell.y === y;
-        }) || cell(false, x, y);
+      find: find,
+      nextLife: function() {
+        board = us.map(board, function(thisCell) {
+          var cellNeighbors = neighbors(thisCell, board);
+          var nextState = rules.nextLife(thisCell, cellNeighbors);
+          return cell(nextState, thisCell.x, thisCell.y)
+        });
+      },
+      patternFor: function(startCell, endCell) {
+        console.log(startCell);
+        console.log(endCell);
+        var xRange = us.range(startCell.x, endCell.x + 1);
+        var yRange = us.range(startCell.y, endCell.y + 1);
+        return us.reduce(yRange, function(pattern, yIndex) {
+          return us.reduce(xRange, function(pattern, xIndex) {
+            var cell = find(xIndex, yIndex);
+            if (cell.state()) return pattern + "1";
+            return pattern + 0;
+          }, pattern) + "\n";
+        }, "").trim();
       }
     }
   };

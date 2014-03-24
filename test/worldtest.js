@@ -39,4 +39,20 @@ describe('world', function() {
     var newWorld = world(rowPattern);
     newWorld.find(-1,-1).state().should.equal(false);
   });
+
+  it("should handle the still life block", function() {
+    var rowPattern = "0000\n0110\n0110\n0000";
+    var newWorld = world(rowPattern);
+    newWorld.nextLife();
+    newWorld.patternFor(cell(false,0,0),cell(false,3,3)).should.equal(rowPattern);
+  });
+
+  it("should handle the blinker", function() {
+    var rowPattern = "010\n010\n010";
+    var newWorld = world(rowPattern);
+    newWorld.nextLife();
+    newWorld.patternFor(cell(false,0,0),cell(false,2,2)).should.equal(
+      "000\n111\n000"
+    );
+  });
 });
