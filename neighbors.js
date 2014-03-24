@@ -4,6 +4,11 @@
   module.exports = function(cell, board) {
     var neighborXRange = us.range(cell.x - 1, cell.x + 2);
     var neighborYRange = us.range(cell.y - 1, cell.y + 2);
+    function and(predicates, parameters) {
+      return us.reduce(predicates, function(decision, predicate) {
+        return decision && predicate(parameters);
+      }, true);
+    }
     function isXNeighbor(possibleNeighbor) {
       return us.contains(neighborXRange, possibleNeighbor.x);
     }
@@ -13,11 +18,10 @@
     function isNotMe(possibleNeighbor) {
       return !cell.isEqual(possibleNeighbor);
     }
-    var neighbors = us.filter(board, function(possibleNegihbor) {
-      return isNotMe(possibleNegihbor) &&
-        isXNeighbor(possibleNegihbor) &&
-        isYNeighbor(possibleNegihbor);
-    });
+    function isNeighbor(possibleNeighbor) {
+      return and([isNotMe, isXNeighbor, isYNeighbor], possibleNeighbor);
+    }
+    var neighbors = us.filter(board, isNeighbor);
 
     return {
       numberAlive: function() {
