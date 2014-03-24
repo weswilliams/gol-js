@@ -29,14 +29,36 @@
         return cell.x === x && cell.y === y;
       }) || cell(false, x, y);
     }
+    function highest(dimension) {
+      return us.reduce(board, function(highestY, compareY) {
+        if (!highestY) return compareY;
+        if (highestY[dimension] > compareY[dimension]) return highestY;
+        return compareY;
+      });
+    }
+    function lowest(dimension) {
+      return us.reduce(board, function(highestY, compareY) {
+        if (!highestY) return compareY;
+        if (highestY[dimension] < compareY[dimension]) return highestY;
+        return compareY;
+      });
+    }
     return {
       find: find,
       nextLife: function() {
-        board = us.map(board, function(thisCell) {
-          var cellNeighbors = neighbors(thisCell, board);
-          var nextState = rules.nextLife(thisCell, cellNeighbors);
-          return cell(nextState, thisCell.x, thisCell.y)
+        var highestYCell = highest('y');
+        var lowestYCell = lowest('y');
+        var highestXCell = highest('x');
+        var lowestXCell = lowest('x');
+        board = us.map(us.range(lowestXCell.x-1, highestXCell.x+2), function(yIndex) {
+          return us.map(us.range(lowestYCell.y - 1, highestYCell.y + 2), function(xIndex) {
+            var thisCell = find(xIndex, yIndex);
+            var cellNeighbors = neighbors(thisCell, board);
+            var nextState = rules.nextLife(thisCell, cellNeighbors);
+            return cell(nextState, thisCell.x, thisCell.y)
+          });
         });
+        board = us.flatten(board);
       },
       patternFor: function(startCell, endCell) {
         var xRange = us.range(startCell.x, endCell.x + 1);
