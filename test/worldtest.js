@@ -55,4 +55,14 @@ describe('world', function() {
       "000\n111\n000"
     );
   });
+
+  //do next
+//  it("should handle the glider pattern", function() {
+//    var rowPattern = "010\n001\n111";
+//    var newWorld = world(rowPattern);
+//    newWorld.nextLife();
+//    newWorld.patternFor(cell(false,0,0),cell(false,3,3)).should.equal(
+//      "0000\n1010\n0110\n0100"
+//    );
+//  });
 });
