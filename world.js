@@ -39,8 +39,6 @@
         });
       },
       patternFor: function(startCell, endCell) {
-        console.log(startCell);
-        console.log(endCell);
         var xRange = us.range(startCell.x, endCell.x + 1);
         var yRange = us.range(startCell.y, endCell.y + 1);
         return us.reduce(yRange, function(pattern, yIndex) {
