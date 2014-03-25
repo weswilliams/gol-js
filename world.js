@@ -43,18 +43,22 @@
         return compareY;
       })[dimension] - 1;
     }
+    function createNextLifeForCellAt(x, y) {
+      var thisCell = find(x, y);
+      var cellNeighbors = neighbors(thisCell, board);
+      var nextState = rules.nextLife(thisCell, cellNeighbors);
+      if (nextState) return createCell(nextState, thisCell.x, thisCell.y);
+      return null;
+    }
     return {
       find: find,
       nextLife: function() {
         board = us.map(us.range(lowest('y'), highest('y')), function(yIndex) {
           return us.map(us.range(lowest('x'), highest('x')), function(xIndex) {
-            var thisCell = find(xIndex, yIndex);
-            var cellNeighbors = neighbors(thisCell, board);
-            var nextState = rules.nextLife(thisCell, cellNeighbors);
-            return createCell(nextState, thisCell.x, thisCell.y)
+            return createNextLifeForCellAt(xIndex, yIndex);
           });
         });
-        board = us.flatten(board);
+        board = us.chain(board).flatten().compact().value();
       },
       patternFor: function(startCell, endCell) {
         var xRange = us.range(startCell.x, endCell.x + 1);
