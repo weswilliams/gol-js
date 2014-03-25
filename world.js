@@ -34,28 +34,24 @@
         if (!highestY) return compareY;
         if (highestY[dimension] > compareY[dimension]) return highestY;
         return compareY;
-      });
+      })[dimension] + 2;
     }
     function lowest(dimension) {
       return us.reduce(board, function(highestY, compareY) {
         if (!highestY) return compareY;
         if (highestY[dimension] < compareY[dimension]) return highestY;
         return compareY;
-      });
+      })[dimension] - 1;
     }
     return {
       find: find,
       nextLife: function() {
-        var highestYCell = highest('y');
-        var lowestYCell = lowest('y');
-        var highestXCell = highest('x');
-        var lowestXCell = lowest('x');
-        board = us.map(us.range(lowestXCell.x-1, highestXCell.x+2), function(yIndex) {
-          return us.map(us.range(lowestYCell.y - 1, highestYCell.y + 2), function(xIndex) {
+        board = us.map(us.range(lowest('y'), highest('y')), function(yIndex) {
+          return us.map(us.range(lowest('x'), highest('x')), function(xIndex) {
             var thisCell = find(xIndex, yIndex);
             var cellNeighbors = neighbors(thisCell, board);
             var nextState = rules.nextLife(thisCell, cellNeighbors);
-            return cell(nextState, thisCell.x, thisCell.y)
+            return createCell(nextState, thisCell.x, thisCell.y)
           });
         });
         board = us.flatten(board);
