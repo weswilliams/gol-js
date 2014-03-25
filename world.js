@@ -43,8 +43,7 @@
         return compareY;
       })[dimension] - 1;
     }
-    function createNextLifeForCellAt(x, y) {
-      var thisCell = find(x, y);
+    function createNextLifeForCellAt(thisCell) {
       var cellNeighbors = neighbors(thisCell, board);
       var nextState = rules.nextLife(thisCell, cellNeighbors);
       if (nextState) return createCell(nextState, thisCell.x, thisCell.y);
@@ -55,7 +54,7 @@
       nextLife: function() {
         board = us.map(us.range(lowest('y'), highest('y')), function(yIndex) {
           return us.map(us.range(lowest('x'), highest('x')), function(xIndex) {
-            return createNextLifeForCellAt(xIndex, yIndex);
+            return createNextLifeForCellAt(find(xIndex, yIndex));
           });
         });
         board = us.chain(board).flatten().compact().value();
