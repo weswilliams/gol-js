@@ -49,6 +49,7 @@
       if (nextState) return createCell(nextState, thisCell.x, thisCell.y);
       return null;
     }
+
     return {
       find: find,
       nextLife: function() {

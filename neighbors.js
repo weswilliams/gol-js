@@ -28,6 +28,9 @@
         return us.filter(neighbors, function(neighbor) {
           return neighbor.state();
         }).length;
+      },
+      all: function() {
+        return neighbors;
       }
     }
   };
