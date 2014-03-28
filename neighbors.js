@@ -16,7 +16,7 @@
       return us.contains(neighborYRange, possibleNeighbor.y);
     }
     function isNotMe(possibleNeighbor) {
-      return !cell.haveSameLocation(possibleNeighbor);
+      return !cell.hasSameLocationAs(possibleNeighbor);
     }
     function isNeighbor(possibleNeighbor) {
       return and([isNotMe, isXNeighbor, isYNeighbor], possibleNeighbor);
