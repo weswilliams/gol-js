@@ -9,7 +9,7 @@ var cell = function(state, posX, posY) {
     },
     x: posX,
     y: posY,
-    isEqual: function(compareCell) {
+    haveSameLocation: function(compareCell) {
       return this.x === compareCell.x && this.y === compareCell.y;
     }
   };
