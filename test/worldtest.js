@@ -48,7 +48,7 @@ describe('world', function () {
     newWorld.patternFor(cell(false, 0, 0), cell(false, 3, 3)).should.equal(rowPattern);
   });
 
-  it("should handle the blinker", function () {
+  it("should handle the game", function () {
     var rowPattern = "010\n010\n010";
     var newWorld = world(rowPattern);
     newWorld.nextLife();

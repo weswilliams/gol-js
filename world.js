@@ -60,16 +60,19 @@
         });
         board = us.chain(board).flatten().compact().value();
       },
-      patternFor: function(startCell, endCell) {
+      patternFor: function(startCell, endCell, alive, dead) {
+        alive = alive || "1";
+        dead = dead || "0";
         var xRange = us.range(startCell.x, endCell.x + 1);
         var yRange = us.range(startCell.y, endCell.y + 1);
-        return us.reduce(yRange, function(pattern, yIndex) {
+        var pattern = us.reduce(yRange, function(pattern, yIndex) {
           return us.reduce(xRange, function(pattern, xIndex) {
             var cell = find(xIndex, yIndex);
-            if (cell.state()) return pattern + "1";
-            return pattern + 0;
+            if (cell.state()) return pattern + alive;
+            return pattern + dead;
           }, pattern) + "\n";
-        }, "").trim();
+        }, "");
+        return pattern.substr(0, pattern.length - 1);
       }
     }
   };
