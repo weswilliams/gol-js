@@ -54,7 +54,6 @@
       isAlive: function(x, y) {
         return find(x,y).state();
       },
-      find: find,
       nextLife: function() {
         board = us.map(us.range(lowest('y'), highest('y')), function(yIndex) {
           return us.map(us.range(lowest('x'), highest('x')), function(xIndex) {
