@@ -97,7 +97,7 @@ describe('world', function () {
     var rowPattern = "0000\n0010\n0001\n0111";
     var newWorld = world(rowPattern);
     newWorld.nextLife();
-    newWorld.patternFor(cell(false, 0, 0), cell(false, 4, 4)).should.equal(
+    newWorld.patternFor({x:0,y:0}, {x:4,y:4}).should.equal(
       "00000\n00000\n01010\n00110\n00100"
     );
   });

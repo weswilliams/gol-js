@@ -46,7 +46,8 @@
     function createNextLifeForCellAt(thisCell) {
       var cellNeighbors = neighbors(thisCell, board);
       var nextState = rules.nextLife(thisCell, cellNeighbors);
-      return createCell(nextState, thisCell.x, thisCell.y);
+      if (nextState) return createCell(nextState, thisCell.x, thisCell.y);
+      return null;
     }
 
     return {

@@ -40,6 +40,6 @@ setInterval(function(){
   clear();
   game.nextLife();
   var pattern = game.patternFor(
-    game.find(0, 0), game.find(width-1, height-1),"X", " ");
+    {x:0,y:0}, {x:width-1,y:height-1},"X", " ");
   util.puts(pattern);
 },150);
