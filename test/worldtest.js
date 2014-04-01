@@ -6,7 +6,7 @@ var us = require("underscore");
 
 describe('world', function () {
   it("should handle an empty world", function () {
-    world("").find(0, 0).state().should.equal(false);
+    world("").isAlive(0, 0).should.equal(false);
   });
 
   it('should parse a row pattern into cells', function () {
