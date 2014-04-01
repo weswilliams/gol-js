@@ -45,14 +45,14 @@ describe('world', function () {
     var rowPattern = "0000\n0110\n0110\n0000";
     var newWorld = world(rowPattern);
     newWorld.nextLife();
-    newWorld.patternFor(cell(false, 0, 0), cell(false, 3, 3)).should.equal(rowPattern);
+    newWorld.patternFor({x:0,y:0}, {x:3,y:3}).should.equal(rowPattern);
   });
 
   it("should handle the game", function () {
     var rowPattern = "010\n010\n010";
     var newWorld = world(rowPattern);
     newWorld.nextLife();
-    newWorld.patternFor(cell(false, 0, 0), cell(false, 2, 2)).should.equal(
+    newWorld.patternFor({x:0,y:0}, {x:2,y:2}).should.equal(
       "000\n111\n000"
     );
   });
@@ -61,7 +61,7 @@ describe('world', function () {
     var rowPattern = "010\n001\n111";
     var newWorld = world(rowPattern);
     newWorld.nextLife();
-    newWorld.patternFor(cell(false, 0, 0), cell(false, 3, 3)).should.equal(
+    newWorld.patternFor({x:0,y:0}, {x:3,y:3}).should.equal(
       "0000\n1010\n0110\n0100"
     );
   });
@@ -70,7 +70,7 @@ describe('world', function () {
     var rowPattern = "000\n101\n011\n010";
     var newWorld = world(rowPattern);
     newWorld.nextLife();
-    newWorld.patternFor(cell(false, 0, 0), cell(false, 3, 3)).should.equal(
+    newWorld.patternFor({x:0,y:0}, {x:3,y:3}).should.equal(
       "0000\n0010\n1010\n0110"
     );
   });
@@ -79,7 +79,7 @@ describe('world', function () {
     var rowPattern = "000\n001\n101\n011";
     var newWorld = world(rowPattern);
     newWorld.nextLife();
-    newWorld.patternFor(cell(false, 0, 0), cell(false, 3, 3)).should.equal(
+    newWorld.patternFor({x:0,y:0}, {x:3,y:3}).should.equal(
       "0000\n0100\n0011\n0110"
     );
   });
@@ -88,7 +88,7 @@ describe('world', function () {
     var rowPattern = "0000\n0100\n0011\n0110";
     var newWorld = world(rowPattern);
     newWorld.nextLife();
-    newWorld.patternFor(cell(false, 0, 0), cell(false, 3, 3)).should.equal(
+    newWorld.patternFor({x:0,y:0}, {x:3,y:3}).should.equal(
       "0000\n0010\n0001\n0111"
     );
   });
