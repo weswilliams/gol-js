@@ -46,11 +46,13 @@
     function createNextLifeForCellAt(thisCell) {
       var cellNeighbors = neighbors(thisCell, board);
       var nextState = rules.nextLife(thisCell, cellNeighbors);
-      if (nextState) return createCell(nextState, thisCell.x, thisCell.y);
-      return null;
+      return createCell(nextState, thisCell.x, thisCell.y);
     }
 
     return {
+      isAlive: function(x, y) {
+        return find(x,y).state();
+      },
       find: find,
       nextLife: function() {
         board = us.map(us.range(lowest('y'), highest('y')), function(yIndex) {
