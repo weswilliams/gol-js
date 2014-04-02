@@ -9,24 +9,17 @@ var spinners =
   "010000000000011\n" +
   "000000000000011";
 
-var gliderGun =
-  "00000000000000000000000001\n" +
-  "00000000000000000000000101\n" +
-  "0000000000000110000001100000000000011\n" +
-  "0000000000001000100001100000000000011\n" +
-  "01100000000100000100011\n" +
-  "01100000000100010110000101\n" +
-  "00000000000100000100000001\n" +
-  "00000000000010001\n" +
-  "000000000000011";
-
-var game = world(gliderGun);
 var exec = require('child_process').exec;
 var util = require("util");
 
-var width = process.argv[2];
-var height = process.argv[3];
+var width = process.argv[2] || 80;
+var height = process.argv[3] || 24;
+var patternName = process.argv[4] || "spinners";
+var gameSpeed = process.argv[5] || 150;
+
 console.log("screen is " + width + "x" + height);
+console.log("pattern name is " + patternName);
+var game = world(require("./" + patternName));
 
 function clear() {
   us.each(us.range(0,width), function() {
@@ -42,4 +35,4 @@ setInterval(function(){
   var pattern = game.patternFor(
     {x:0,y:0}, {x:width-1,y:height-1},"X", " ");
   util.puts(pattern);
-},150);
+},gameSpeed);
