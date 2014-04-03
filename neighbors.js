@@ -29,9 +29,8 @@
           return neighbor.state();
         }).length;
       },
-      all: function() {
-        return neighbors;
-      }
+      xRange: neighborXRange,
+      yRange: neighborYRange
     }
   };
 })();
