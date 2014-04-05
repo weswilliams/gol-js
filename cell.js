@@ -1,8 +1,7 @@
 (function() {
   "use strict";
 
-var us = require('underscore');
-var cell = function(state, posX, posY) {
+module.exports = function(state, posX, posY) {
   return {
     state: function() {
       return state;
@@ -14,5 +13,4 @@ var cell = function(state, posX, posY) {
     }
   };
 };
-module.exports = cell;
 })();
