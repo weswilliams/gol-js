@@ -2,7 +2,7 @@
   "use strict";
 
   var us = require('underscore');
-  var cell = require('./cell.js');
+  var cell = require('./cell.js').cell;
   var neighbors = require('./neighbors.js');
 
   function createCell(state, x, y) {

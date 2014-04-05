@@ -1,7 +1,7 @@
 "use strict";
 var assert = require("assert");
 var should = require('should');
-var cell = require("../cell.js");
+var cell = require("../cell.js").cell;
 
 
 describe('cell', function () {
