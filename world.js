@@ -3,7 +3,6 @@
 
   var us = require('underscore');
   var cell = require('./cell.js');
-  var rules = require('./rules.js');
   var neighbors = require('./neighbors.js');
 
   function createCell(state, x, y) {
@@ -45,7 +44,7 @@
     }
     function createNextLifeForCellAt(thisCell) {
       var cellNeighbors = neighbors(thisCell, board);
-      var nextState = rules.nextLife(thisCell, cellNeighbors);
+      var nextState = thisCell.aliveInNextLife(cellNeighbors);
       if (nextState) return createCell(nextState, thisCell.x, thisCell.y);
       return null;
     }
