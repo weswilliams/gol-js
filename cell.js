@@ -44,7 +44,7 @@
     };
   }
 
-  function aliveCell(coordinates) {
+  function liveCellAt(coordinates) {
     return {
       state: function () { return true; },
       aliveInNextLife: function (neighbors) {
@@ -57,7 +57,7 @@
     };
   }
 
-  function deadCell(coordinates) {
+  function deadCellAt(coordinates) {
     return {
       state: function () { return false; },
       aliveInNextLife: function (neighbors) {
@@ -72,7 +72,11 @@
 
   module.exports.cell = function (state, posX, posY) {
     var myCoordinates = coordinates(posX, posY);
-    if (state) { return aliveCell(myCoordinates); }
-    return deadCell(myCoordinates);
+    if (state) { return liveCellAt(myCoordinates); }
+    return deadCellAt(myCoordinates);
   };
+
+  module.exports.coordinates = coordinates;
+  module.exports.deadCellAt = deadCellAt;
+  module.exports.liveCellAt = liveCellAt;
 })();
