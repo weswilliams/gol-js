@@ -7,14 +7,17 @@
     return {
       x: posX,
       y: posY,
-      isAlive: function () { return cell.isAlive(); },
-      aliveInNextLife: function (neighbors) {
-        return cell.aliveInNextLife(neighbors);
+      nextLife: function(coordinates, action) {
+        var me = this;
+        cell.nextLife(this.neighbors(coordinates), function(cell) {
+          action(cell);
+        });
       },
+      isAlive: function () { return cell.isAlive(); },
       hasSameLocationAs: function (compareCoordinates) {
         return this.x === compareCoordinates.x && this.y === compareCoordinates.y;
       },
-      neighbors: function(coordinates) {
+      neighbors: function(possibleNeighbors) {
         var me = this;
         var neighborXRange = us.range(me.x - 1, me.x + 2);
         var neighborYRange = us.range(me.y - 1, me.y + 2);
@@ -35,7 +38,7 @@
         function isNeighbor(possibleNeighbor) {
           return and([isNotMe, isXNeighbor, isYNeighbor], possibleNeighbor);
         }
-        var neighbors = us.filter(coordinates, isNeighbor);
+        var neighbors = us.filter(possibleNeighbors, isNeighbor);
 
         return {
           numberAlive: function() {
@@ -61,6 +64,10 @@
       isAlive: function () { return true; },
       aliveInNextLife: function (neighbors) {
         return liveCellRules(neighbors).staysAliveInNextLife();
+      },
+      nextLife: function(neighbors, action) {
+        var nextLife = this.aliveInNextLife(neighbors) ? liveCell() : deadCell();
+        action(nextLife);
       }
     };
   }
@@ -78,6 +85,10 @@
       isAlive: function () { return false; },
       aliveInNextLife: function (neighbors) {
         return deadCellRules(neighbors).comeAliveInNextLife();
+      },
+      nextLife: function(neighbors, action) {
+        var nextLife = this.aliveInNextLife(neighbors) ? liveCell() : deadCell();
+        action(nextLife);
       }
     };
   }

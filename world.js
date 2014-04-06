@@ -45,24 +45,21 @@
         return compareY;
       })[dimension] - 1;
     }
-    function createNextLifeForCellAt(thisCell) {
-      var cellNeighbors = thisCell.neighbors(board);
-      var nextState = thisCell.aliveInNextLife(cellNeighbors);
-      if (nextState) { return createCell(nextState, thisCell.x, thisCell.y); }
-      return null;
-    }
 
     return {
       isAlive: function(x, y) {
         return find(x,y).isAlive();
       },
       nextLife: function() {
-        board = us.map(us.range(lowest('y'), highest('y')), function(yIndex) {
-          return us.map(us.range(lowest('x'), highest('x')), function(xIndex) {
-            return createNextLifeForCellAt(find(xIndex, yIndex));
+        var nextBoard = [];
+        us.each(us.range(lowest('y'), highest('y')), function(yIndex) {
+          us.each(us.range(lowest('x'), highest('x')), function(xIndex) {
+            find(xIndex, yIndex).nextLife(board, function(nextLifeCell) {
+              if (nextLifeCell.isAlive()) { nextBoard.push(coordinates(xIndex, yIndex, nextLifeCell)); }
+            });
           });
         });
-        board = us.chain(board).flatten().compact().value();
+       board = nextBoard;
       },
       patternFor: function(startCell, endCell, alive, dead) {
         alive = alive || "1";
