@@ -29,10 +29,17 @@ function clear() {
   });
 }
 
+var pattern;
+function forEachX(isAlive) {
+  pattern += isAlive ? "X" : " ";
+}
+function forEachY() {
+  pattern += "\n";
+}
 setInterval(function(){
   clear();
   game.nextLife();
-  var pattern = game.patternFor(
-    {x:0,y:0}, {x:width-1,y:height-1},"X", " ");
+  pattern = "";
+  game.patternFor({x:0,y:0}, {x:width-1,y:height-1},forEachX, forEachY);
   util.puts(pattern);
 },gameSpeed);
