@@ -53,11 +53,7 @@
       isAlive: function () { return true; },
       aliveInNextLife: function (neighbors) {
         return neighbors.numberAlive() === 2 || neighbors.numberAlive() === 3;
-      },
-      x: coordinates.x,
-      y: coordinates.y,
-      hasSameLocationAs: coordinates.hasSameLocationAs,
-      neighbors: coordinates.neighbors
+      }
     };
   }
 
@@ -66,11 +62,7 @@
       isAlive: function () { return false; },
       aliveInNextLife: function (neighbors) {
         return neighbors.numberAlive() === 3;
-      },
-      x: coordinates.x,
-      y: coordinates.y,
-      hasSameLocationAs: coordinates.hasSameLocationAs,
-      neighbors: coordinates.neighbors
+      }
     };
   }
 
