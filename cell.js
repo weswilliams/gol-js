@@ -30,8 +30,8 @@
       x: posX,
       y: posY,
       cell: cell,
-      nextLife: function(coordinates, action) {
-        cell.nextLife(this.neighbors(coordinates), function(cell) {
+      nextLife: function(allCoordinates, action) {
+        cell.nextLife(this.neighbors(allCoordinates), function(cell) {
           action(cell);
         });
       },

@@ -13,56 +13,57 @@ function neighbors(numberAlive) {
 
 describe('dead cell', function () {
 
-  var deadCell;
+  var deadCell, comeAlive;
+  function isAliveAction(alive) { comeAlive = alive; }
 
   before(function() {
     deadCell = cell.deadCell();
   });
 
-  it('should be dead', function () {
-    deadCell.isAlive().should.equal(false);
-  });
-
   it('should stay dead with fewer than 3 live neighbors', function() {
-    deadCell.aliveInNextLife(neighbors(2)).should.equal(false);
+    deadCell.aliveInNextLife(neighbors(2), isAliveAction);
+    comeAlive.should.equal(false);
   });
 
   it('should stay dead with more than 3 live neighbors', function() {
-    deadCell.aliveInNextLife(neighbors(4)).should.equal(false);
+    deadCell.aliveInNextLife(neighbors(4), isAliveAction);
+    comeAlive.should.equal(false);
   });
 
   it('should come alive with exactly 3 live neighbors', function() {
-    deadCell.aliveInNextLife(neighbors(3)).should.equal(true);
+    deadCell.aliveInNextLife(neighbors(3), isAliveAction);
+    comeAlive.should.equal(true);
   });
 
 });
 
 describe('alive cell', function () {
 
-  var aliveCell;
+  var aliveCell, isStillAlive;
+  function stayAliveAction(alive) { isStillAlive = alive; }
 
   before(function() {
     aliveCell = cell.liveCell();
   });
 
-  it('should be dead', function () {
-    aliveCell.isAlive().should.equal(true);
-  });
-
   it('should stay alive with exactly 2 live neighbors', function() {
-    aliveCell.aliveInNextLife(neighbors(2)).should.equal(true);
+    aliveCell.aliveInNextLife(neighbors(2), stayAliveAction);
+    isStillAlive.should.equal(true);
   });
 
   it('should stay alive with exactly 3 live neighbors', function() {
-    aliveCell.aliveInNextLife(neighbors(3)).should.equal(true);
+    aliveCell.aliveInNextLife(neighbors(3), stayAliveAction);
+    isStillAlive.should.equal(true);
   });
 
   it('should die with less than 2 live neighbors', function() {
-    aliveCell.aliveInNextLife(neighbors(1)).should.equal(false);
+    aliveCell.aliveInNextLife(neighbors(1), stayAliveAction);
+    isStillAlive.should.equal(false);
   });
 
   it('should die with more than 3 live neighbors', function() {
-    aliveCell.aliveInNextLife(neighbors(4)).should.equal(false);
+    aliveCell.aliveInNextLife(neighbors(4), stayAliveAction);
+    isStillAlive.should.equal(false);
   });
 
 });
