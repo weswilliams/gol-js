@@ -54,8 +54,10 @@
 
   function liveCellRules(neighbors) {
     return {
-      staysAliveInNextLife: function() {
-        return neighbors.numberAlive() === 2 || neighbors.numberAlive() === 3;
+      staysAliveInNextLife: function(action) {
+        var stayAlive = neighbors.numberAlive() === 2 || neighbors.numberAlive() === 3;
+        if (action) { action(stayAlive); }
+        return  stayAlive;
       }
     };
   }
@@ -64,22 +66,21 @@
     return {
       isAlive: function(action) {
         if (action) { action(true); }
-        return true;
       },
-      aliveInNextLife: function (neighbors) {
-        return liveCellRules(neighbors).staysAliveInNextLife();
+      aliveInNextLife: function (neighbors, action) {
+        return liveCellRules(neighbors).staysAliveInNextLife(action);
       },
       nextLife: function(neighbors, action) {
-        var nextLife = this.aliveInNextLife(neighbors) ? liveCell() : deadCell();
-        action(nextLife);
+        this.aliveInNextLife(neighbors, action);
       }
     };
   }
 
   function deadCellRules(neighbors) {
     return {
-      comeAliveInNextLife: function() {
-        return neighbors.numberAlive() === 3;
+      comeAliveInNextLife: function(action) {
+        var comesAlive = neighbors.numberAlive() === 3;
+        if (action) { action(comesAlive); }
       }
     };
   }
@@ -88,14 +89,12 @@
     return {
       isAlive: function (action) {
         if (action) { action(false); }
-        return false;
       },
-      aliveInNextLife: function (neighbors) {
-        return deadCellRules(neighbors).comeAliveInNextLife();
+      aliveInNextLife: function (neighbors, action) {
+        return deadCellRules(neighbors).comeAliveInNextLife(action);
       },
       nextLife: function(neighbors, action) {
-        var nextLife = this.aliveInNextLife(neighbors) ? liveCell() : deadCell();
-        action(nextLife);
+        this.aliveInNextLife(neighbors, action);
       }
     };
   }

@@ -5,41 +5,6 @@ var cell = require("../cell.js");
 var us = require("underscore");
 
 describe('world', function () {
-  it("should handle an empty world", function () {
-    world("").isAlive(0, 0).should.equal(false);
-  });
-
-  it('should parse a row pattern into cells', function () {
-    var rowPattern = "010010";
-    var newWorld = world(rowPattern);
-    newWorld.isAlive(0, 0).should.equal(false);
-    newWorld.isAlive(1, 0).should.equal(true);
-  });
-
-  it('should parse multiple rows pattern into cells', function () {
-    var rowPattern = "010010\n000100";
-    var newWorld = world(rowPattern);
-    newWorld.isAlive(0, 0).should.equal(false);
-    newWorld.isAlive(1, 0).should.equal(true);
-    newWorld.isAlive(0, 1).should.equal(false);
-  });
-
-
-  it('should parse multiple rows pattern of unequal size into cells', function () {
-    var rowPattern = "010010\n000100\n0001\n01\n01001";
-    var newWorld = world(rowPattern);
-    newWorld.isAlive(0, 0).should.equal(false);
-    newWorld.isAlive(1, 0).should.equal(true);
-    newWorld.isAlive(0, 1).should.equal(false);
-    newWorld.isAlive(3, 2).should.equal(true);
-    newWorld.isAlive(1, 4).should.equal(true);
-  });
-
-  it("should have a dead cell for cells not in the initial pattern", function () {
-    var rowPattern = "010010\n000100";
-    var newWorld = world(rowPattern);
-    newWorld.isAlive(-1, -1).should.equal(false);
-  });
 
   it("should handle the still life block", function () {
     var rowPattern = "0000\n0110\n0110\n0000";

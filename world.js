@@ -47,15 +47,12 @@
     }
 
     return {
-      isAlive: function(x, y) {
-        return find(x,y).cell.isAlive();
-      },
       nextLife: function() {
         var nextBoard = [];
         us.each(us.range(lowest('y'), highest('y')), function(yIndex) {
           us.each(us.range(lowest('x'), highest('x')), function(xIndex) {
-            find(xIndex, yIndex).nextLife(board, function(nextLifeCell) {
-              if (nextLifeCell.isAlive()) { nextBoard.push(coordinates(xIndex, yIndex, nextLifeCell)); }
+            find(xIndex, yIndex).nextLife(board, function(livesInNextLife) {
+              if (livesInNextLife) { nextBoard.push(coordinates(xIndex, yIndex, liveCell())); }
             });
           });
         });
@@ -69,8 +66,10 @@
         var pattern = us.reduce(yRange, function(pattern, yIndex) {
           return us.reduce(xRange, function(pattern, xIndex) {
             var coordinates = find(xIndex, yIndex);
-            if (coordinates.cell.isAlive()) { return pattern + alive; }
-            return pattern + dead;
+            coordinates.cell.isAlive(function(isAlive) {
+              pattern += isAlive ? alive : dead;
+            });
+            return pattern ;
           }, pattern) + "\n";
         }, "");
         return pattern.substr(0, pattern.length - 1);
