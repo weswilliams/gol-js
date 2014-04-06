@@ -48,11 +48,27 @@
     };
   }
 
+  function liveCellRules(neighbors) {
+    return {
+      staysAliveInNextLife: function() {
+        return neighbors.numberAlive() === 2 || neighbors.numberAlive() === 3;
+      }
+    };
+  }
+
   function liveCell() {
     return {
       isAlive: function () { return true; },
       aliveInNextLife: function (neighbors) {
-        return neighbors.numberAlive() === 2 || neighbors.numberAlive() === 3;
+        return liveCellRules(neighbors).staysAliveInNextLife();
+      }
+    };
+  }
+
+  function deadCellRules(neighbors) {
+    return {
+      comeAliveInNextLife: function() {
+        return neighbors.numberAlive() === 3;
       }
     };
   }
@@ -61,7 +77,7 @@
     return {
       isAlive: function () { return false; },
       aliveInNextLife: function (neighbors) {
-        return neighbors.numberAlive() === 3;
+        return deadCellRules(neighbors).comeAliveInNextLife();
       }
     };
   }
