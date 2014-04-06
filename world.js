@@ -3,7 +3,6 @@
 
   var us = require('underscore');
   var cell = require('./cell.js').cell;
-  var neighbors = require('./neighbors.js');
 
   function createCell(state, x, y) {
     return cell(state, x, y);
@@ -30,22 +29,22 @@
     }
     function highest(dimension) {
       return us.reduce(board, function(highestY, compareY) {
-        if (!highestY) return compareY;
-        if (highestY[dimension] > compareY[dimension]) return highestY;
+        if (!highestY) { return compareY; }
+        if (highestY[dimension] > compareY[dimension]) { return highestY; }
         return compareY;
       })[dimension] + 2;
     }
     function lowest(dimension) {
       return us.reduce(board, function(highestY, compareY) {
-        if (!highestY) return compareY;
-        if (highestY[dimension] < compareY[dimension]) return highestY;
+        if (!highestY) { return compareY; }
+        if (highestY[dimension] < compareY[dimension]) { return highestY; }
         return compareY;
       })[dimension] - 1;
     }
     function createNextLifeForCellAt(thisCell) {
-      var cellNeighbors = neighbors(thisCell, board);
+      var cellNeighbors = thisCell.neighbors(board);
       var nextState = thisCell.aliveInNextLife(cellNeighbors);
-      if (nextState) return createCell(nextState, thisCell.x, thisCell.y);
+      if (nextState) { return createCell(nextState, thisCell.x, thisCell.y); }
       return null;
     }
 
@@ -69,12 +68,12 @@
         var pattern = us.reduce(yRange, function(pattern, yIndex) {
           return us.reduce(xRange, function(pattern, xIndex) {
             var cell = find(xIndex, yIndex);
-            if (cell.state()) return pattern + alive;
+            if (cell.state()) { return pattern + alive; }
             return pattern + dead;
           }, pattern) + "\n";
         }, "");
         return pattern.substr(0, pattern.length - 1);
       }
-    }
+    };
   };
 })();
