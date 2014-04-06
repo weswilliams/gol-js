@@ -48,7 +48,7 @@
     };
   }
 
-  function liveCellAt() {
+  function liveCell() {
     return {
       isAlive: function () { return true; },
       aliveInNextLife: function (neighbors) {
@@ -61,7 +61,7 @@
     };
   }
 
-  function deadCellAt() {
+  function deadCell() {
     return {
       isAlive: function () { return false; },
       aliveInNextLife: function (neighbors) {
@@ -77,11 +77,11 @@
   module.exports.cell = function (isAlive, posX, posY) {
     var cell;
     var myCoordinates = coordinates(posX, posY);
-    if (isAlive) { cell = liveCellAt(myCoordinates); }
-    else { cell = deadCellAt(myCoordinates); }
+    if (isAlive) { cell = liveCell(myCoordinates); }
+    else { cell = deadCell(myCoordinates); }
     return coordinates(posX, posY, cell);
   };
   module.exports.coordinates = coordinates;
-  module.exports.deadCellAt = deadCellAt;
-  module.exports.liveCellAt = liveCellAt;
+  module.exports.deadCell = deadCell;
+  module.exports.liveCell = liveCell;
 })();
