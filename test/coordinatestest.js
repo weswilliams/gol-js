@@ -2,6 +2,15 @@
 var assert = require("assert");
 var should = require('should');
 var cell = require("../cell.js").cell;
+var coordinates = require("../cell.js").coordinates;
+
+describe("coordinate system", function() {
+  it('should have coordinates', function () {
+    var coordinate0_0 = coordinates(0, 1);
+    coordinate0_0.x.should.equal(0);
+    coordinate0_0.y.should.equal(1);
+  });
+});
 
 describe("neighbors", function(){
   it("should have no alive neighbors for a cell in a dead board", function() {
