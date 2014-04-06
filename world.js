@@ -81,11 +81,9 @@
         var yRange = us.range(startCell.y, endCell.y + 1);
         us.each(yRange, function (pattern, yIndex) {
           us.each(xRange, function (pattern, xIndex) {
-            var coordinates = find(xIndex, yIndex);
-            coordinates.cell.isAlive(function (isAlive) {
+            find(xIndex, yIndex).cell.isAlive(function (isAlive) {
               xAction(isAlive);
             });
-            return pattern;
           });
           yAction();
         });
