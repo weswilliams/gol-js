@@ -76,9 +76,8 @@
 
   module.exports.cell = function (isAlive, posX, posY) {
     var cell;
-    var myCoordinates = coordinates(posX, posY);
-    if (isAlive) { cell = liveCell(myCoordinates); }
-    else { cell = deadCell(myCoordinates); }
+    if (isAlive) { cell = liveCell(); }
+    else { cell = deadCell(); }
     return coordinates(posX, posY, cell);
   };
   module.exports.coordinates = coordinates;
