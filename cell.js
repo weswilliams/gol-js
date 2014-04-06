@@ -30,7 +30,6 @@
       x: posX,
       y: posY,
       nextLife: function(coordinates, action) {
-        var me = this;
         cell.nextLife(this.neighbors(coordinates), function(cell) {
           action(cell);
         });
@@ -41,7 +40,6 @@
       },
       neighbors: function(possibleNeighbors) {
         var neighbors = us.filter(possibleNeighbors, neighborsFilterFor(this));
-
         return {
           numberAlive: function() {
             return us.filter(neighbors, function(neighbor) {
