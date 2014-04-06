@@ -3,10 +3,14 @@
 
   var us = require("underscore");
 
-  function coordinates(posX, posY) {
+  function coordinates(posX, posY, cell) {
     return {
       x: posX,
       y: posY,
+      isAlive: function () { return cell.isAlive(); },
+      aliveInNextLife: function (neighbors) {
+        return cell.aliveInNextLife(neighbors);
+      },
       hasSameLocationAs: function (compareCoordinates) {
         return this.x === compareCoordinates.x && this.y === compareCoordinates.y;
       },
@@ -36,7 +40,7 @@
         return {
           numberAlive: function() {
             return us.filter(neighbors, function(neighbor) {
-              return neighbor.state();
+              return neighbor.isAlive();
             }).length;
           }
         };
@@ -44,9 +48,9 @@
     };
   }
 
-  function liveCellAt(coordinates) {
+  function liveCellAt() {
     return {
-      state: function () { return true; },
+      isAlive: function () { return true; },
       aliveInNextLife: function (neighbors) {
         return neighbors.numberAlive() === 2 || neighbors.numberAlive() === 3;
       },
@@ -57,9 +61,9 @@
     };
   }
 
-  function deadCellAt(coordinates) {
+  function deadCellAt() {
     return {
-      state: function () { return false; },
+      isAlive: function () { return false; },
       aliveInNextLife: function (neighbors) {
         return neighbors.numberAlive() === 3;
       },
@@ -70,12 +74,13 @@
     };
   }
 
-  module.exports.cell = function (state, posX, posY) {
+  module.exports.cell = function (isAlive, posX, posY) {
+    var cell;
     var myCoordinates = coordinates(posX, posY);
-    if (state) { return liveCellAt(myCoordinates); }
-    return deadCellAt(myCoordinates);
+    if (isAlive) { cell = liveCellAt(myCoordinates); }
+    else { cell = deadCellAt(myCoordinates); }
+    return coordinates(posX, posY, cell);
   };
-
   module.exports.coordinates = coordinates;
   module.exports.deadCellAt = deadCellAt;
   module.exports.liveCellAt = liveCellAt;

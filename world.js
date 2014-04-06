@@ -50,7 +50,7 @@
 
     return {
       isAlive: function(x, y) {
-        return find(x,y).state();
+        return find(x,y).isAlive();
       },
       nextLife: function() {
         board = us.map(us.range(lowest('y'), highest('y')), function(yIndex) {
@@ -68,7 +68,7 @@
         var pattern = us.reduce(yRange, function(pattern, yIndex) {
           return us.reduce(xRange, function(pattern, xIndex) {
             var cell = find(xIndex, yIndex);
-            if (cell.state()) { return pattern + alive; }
+            if (cell.isAlive()) { return pattern + alive; }
             return pattern + dead;
           }, pattern) + "\n";
         }, "");
