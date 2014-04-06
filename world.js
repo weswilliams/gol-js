@@ -48,7 +48,7 @@
 
     return {
       isAlive: function(x, y) {
-        return find(x,y).isAlive();
+        return find(x,y).cell.isAlive();
       },
       nextLife: function() {
         var nextBoard = [];
@@ -68,8 +68,8 @@
         var yRange = us.range(startCell.y, endCell.y + 1);
         var pattern = us.reduce(yRange, function(pattern, yIndex) {
           return us.reduce(xRange, function(pattern, xIndex) {
-            var cell = find(xIndex, yIndex);
-            if (cell.isAlive()) { return pattern + alive; }
+            var coordinates = find(xIndex, yIndex);
+            if (coordinates.cell.isAlive()) { return pattern + alive; }
             return pattern + dead;
           }, pattern) + "\n";
         }, "");

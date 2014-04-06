@@ -29,12 +29,12 @@
     return {
       x: posX,
       y: posY,
+      cell: cell,
       nextLife: function(coordinates, action) {
         cell.nextLife(this.neighbors(coordinates), function(cell) {
           action(cell);
         });
       },
-      isAlive: function () { return cell.isAlive(); },
       hasSameLocationAs: function (compareCoordinates) {
         return this.x === compareCoordinates.x && this.y === compareCoordinates.y;
       },
@@ -42,9 +42,10 @@
         var neighbors = us.filter(possibleNeighbors, neighborsFilterFor(this));
         return {
           numberAlive: function() {
-            return us.filter(neighbors, function(neighbor) {
-              return neighbor.isAlive();
-            }).length;
+            return us.reduce(neighbors, function(count, neighbor) {
+              neighbor.cell.isAlive(function(isAlive) { if (isAlive) { count++; } });
+              return count;
+            }, 0);
           }
         };
       }
@@ -61,7 +62,10 @@
 
   function liveCell() {
     return {
-      isAlive: function () { return true; },
+      isAlive: function(action) {
+        if (action) { action(true); }
+        return true;
+      },
       aliveInNextLife: function (neighbors) {
         return liveCellRules(neighbors).staysAliveInNextLife();
       },
@@ -82,7 +86,10 @@
 
   function deadCell() {
     return {
-      isAlive: function () { return false; },
+      isAlive: function (action) {
+        if (action) { action(false); }
+        return false;
+      },
       aliveInNextLife: function (neighbors) {
         return deadCellRules(neighbors).comeAliveInNextLife();
       },
