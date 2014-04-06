@@ -8,7 +8,7 @@
   var coordinates = cellModule.coordinates;
 
   function createCoordinates(hasALiveCell, x, y) {
-    var cell = hasALiveCell ? liveCell() : deadCell();
+    var cell = hasALiveCell ? liveCell : deadCell;
     return coordinates(x, y, cell);
   }
 
