@@ -7,6 +7,8 @@
   var deadCell = cellModule.deadCell;
   var coordinates = cellModule.coordinates;
 
+  function doNothing() {}
+
   function createCoordinates(hasALiveCell, x, y) {
     var cell = hasALiveCell ? liveCell : deadCell;
     return coordinates(x, y, cell);
@@ -74,16 +76,22 @@
       patternFor: function (startCell, endCell, alive, dead) {
         alive = alive || "1";
         dead = dead || "0";
+        var xAction = us.isFunction(alive) ? alive : doNothing;
+        var yAction = us.isFunction(dead) ? dead : doNothing;
+
         var xRange = us.range(startCell.x, endCell.x + 1);
         var yRange = us.range(startCell.y, endCell.y + 1);
         var pattern = us.reduce(yRange, function (pattern, yIndex) {
-          return us.reduce(xRange, function (pattern, xIndex) {
+          var xPattern = us.reduce(xRange, function (pattern, xIndex) {
             var coordinates = find(xIndex, yIndex);
             coordinates.cell.isAlive(function (isAlive) {
               pattern += isAlive ? alive : dead;
+              xAction(isAlive);
             });
             return pattern;
           }, pattern) + "\n";
+          yAction();
+          return xPattern;
         }, "");
         return pattern.substr(0, pattern.length - 1);
       }

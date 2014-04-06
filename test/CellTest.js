@@ -17,7 +17,7 @@ describe('dead cell', function () {
   function isAliveAction(alive) { comeAlive = alive; }
 
   before(function() {
-    deadCell = cell.deadCell();
+    deadCell = cell.deadCell;
   });
 
   it('should stay dead with fewer than 3 live neighbors', function() {
@@ -43,7 +43,7 @@ describe('alive cell', function () {
   function stayAliveAction(alive) { isStillAlive = alive; }
 
   before(function() {
-    aliveCell = cell.liveCell();
+    aliveCell = cell.liveCell;
   });
 
   it('should stay alive with exactly 2 live neighbors', function() {

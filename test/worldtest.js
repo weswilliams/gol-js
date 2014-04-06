@@ -4,13 +4,25 @@ var world = require("../world.js");
 var cell = require("../cell.js");
 var us = require("underscore");
 
+var pattern;
+function onNewY() {
+  pattern += "\n";
+}
+function onNewX(isAlive) {
+  pattern += isAlive ? "1" : "0";
+}
+
 describe('world', function () {
 
+  before(function() {
+    pattern = "";
+  });
+
   it("should handle the still life block", function () {
-    var rowPattern = "0000\n0110\n0110\n0000";
-    var newWorld = world(rowPattern);
+    var newWorld = world("0000\n0110\n0110\n0000");
     newWorld.nextLife();
-    newWorld.patternFor({x:0,y:0}, {x:3,y:3}).should.equal(rowPattern);
+    newWorld.patternFor({x:0,y:0}, {x:3,y:3}, onNewX, onNewY);
+    pattern.trim().should.equal("0000\n0110\n0110\n0000");
   });
 
   it("should handle the game", function () {
