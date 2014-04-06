@@ -2,10 +2,14 @@
   "use strict";
 
   var us = require('underscore');
-  var cell = require('./cell.js').cell;
+  var cellModule = require('./cell.js');
+  var liveCell = cellModule.liveCell;
+  var deadCell = cellModule.deadCell;
+  var coordinates = cellModule.coordinates;
 
-  function createCell(state, x, y) {
-    return cell(state, x, y);
+  function createCell(hasALiveCell, x, y) {
+    var cell = hasALiveCell ? liveCell() : deadCell();
+    return coordinates(x, y, cell);
   }
 
   function parseRowPattern(rowPattern, rowIndex) {
@@ -25,7 +29,7 @@
     function find(x, y) {
       return us.find(board, function (cell) {
         return cell.x === x && cell.y === y;
-      }) || cell(false, x, y);
+      }) || createCell(false, x, y);
     }
     function highest(dimension) {
       return us.reduce(board, function(highestY, compareY) {

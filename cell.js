@@ -74,12 +74,6 @@
     };
   }
 
-  module.exports.cell = function (isAlive, posX, posY) {
-    var cell;
-    if (isAlive) { cell = liveCell(); }
-    else { cell = deadCell(); }
-    return coordinates(posX, posY, cell);
-  };
   module.exports.coordinates = coordinates;
   module.exports.deadCell = deadCell;
   module.exports.liveCell = liveCell;
