@@ -3,6 +3,8 @@
 
   var us = require("underscore");
 
+  function neighborRangeFor(me, dimension) { return us.range(me[dimension] - 1, me[dimension] + 2); }
+
   function neighborsFilterFor(me) {
     var neighborXRange = us.range(me.x - 1, me.x + 2);
     var neighborYRange = us.range(me.y - 1, me.y + 2);
@@ -22,7 +24,7 @@
     }
 
     function isNotMe(possibleNeighbor) {
-      return !me.hasSameLocationAs(possibleNeighbor);
+      return me.atDifferentLocationThan(possibleNeighbor);
     }
 
     return function isNeighbor(possibleNeighbor) {
@@ -40,6 +42,7 @@
   }
 
   function coordinates(posX, posY, cell) {
+
     return {
       x: posX,
       y: posY,
@@ -52,11 +55,22 @@
       hasSameLocationAs: function (compareCoordinates) {
         return this.x === compareCoordinates.x && this.y === compareCoordinates.y;
       },
+      atDifferentLocationThan: function(compareCoordinates) {
+        return !this.hasSameLocationAs(compareCoordinates);
+      },
       neighbors: function (possibleNeighbors) {
         var neighbors = us.filter(possibleNeighbors, neighborsFilterFor(this));
         return {
           numberAlive: function() { return countLiveCellsIn(neighbors); }
         };
+      },
+      forEachNeighbor: function(action) {
+        var me = this;
+        us.each(neighborRangeFor(me,'x'), function(x) {
+          us.each(neighborRangeFor(me,'y'), function(y) {
+            if (me.atDifferentLocationThan({x: x, y: y})) { action(x, y); }
+          });
+        });
       }
     };
   }
@@ -94,8 +108,7 @@
 
   var liveCell = cell(liveCellRules, true);
 
-  var deadCell = cell(deadCellRules, false
-);
+  var deadCell = cell(deadCellRules, false);
 
   module.exports.coordinates = coordinates;
   module.exports.deadCell = deadCell;
