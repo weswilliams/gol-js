@@ -2,7 +2,6 @@
   "use strict";
 
   var us = require('underscore');
-  var parser = require('./patternparser.js');
   var cellModule = require('./cell.js');
   var liveCell = cellModule.liveCell;
   var deadCell = cellModule.deadCell;
