@@ -44,6 +44,16 @@
     }
 
     return {
+      liveCellsAndNeighbors: function() {
+        var cellsAndNeighbors = [];
+        us.each(board, function(nextCoordinates) {
+          cellsAndNeighbors.push(nextCoordinates);
+          nextCoordinates.forEachNeighbor(function(x, y) {
+            cellsAndNeighbors.push(createCoordinates(false, x, y));
+          });
+        });
+        return cellsAndNeighbors;
+      },
       addCellAt: function (x, y, isAlive) {
         addLiveCellToBoardAt(x,y,isAlive,board);
       },

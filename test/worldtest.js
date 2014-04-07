@@ -17,6 +17,12 @@ describe('world', function () {
     pattern = "";
   });
 
+  it("should build a list of live cells with neighbors", function() {
+    var newWorld = world();
+    newWorld.addCellAt(1,1,true);
+    newWorld.liveCellsAndNeighbors().length.should.equal(9);
+  });
+
   it("should handle the still life block", function () {
     var newWorld = world();
     parser("0000\n0110\n0110\n0000", function(x,y,isAlive) { newWorld.addCellAt(x,y,isAlive); });
