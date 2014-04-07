@@ -1,5 +1,6 @@
 "use strict";
 var world = require("./world.js");
+var parser = require("./patternparser.js");
 var us = require("underscore");
 
 var spinners =
@@ -19,7 +20,8 @@ var gameSpeed = process.argv[5] || 150;
 
 console.log("screen is " + width + "x" + height);
 console.log("pattern name is " + patternName);
-var game = world(require("./" + patternName));
+var game = world();
+parser(require("./" + patternName), function(x, y, isAlive) { game.addCellAt(x,y,isAlive); });
 
 function clear() {
   us.each(us.range(0,width), function() {
