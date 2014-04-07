@@ -17,9 +17,7 @@
   }
 
   function addLiveCellToBoardAt(x, y, isAlive, board) {
-    if (isAlive) {
-      board.push(createCoordinates(isAlive, x, y));
-    }
+    if (isAlive) { board.push(createCoordinates(isAlive, x, y)); }
   }
 
   function higherThan(currentHighest, compareTo) { return currentHighest > compareTo; }
