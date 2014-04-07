@@ -3,13 +3,6 @@ var world = require("./world.js");
 var parser = require("./patternparser.js");
 var us = require("underscore");
 
-var spinners =
-  "\n" +
-  "010000111001100\n" +
-  "0100011100011\n" +
-  "010000000000011\n" +
-  "000000000000011";
-
 var exec = require('child_process').exec;
 var util = require("util");
 
