@@ -7,7 +7,8 @@
   var deadCell = cellModule.deadCell;
   var coordinates = cellModule.coordinates;
 
-  function doNothing() {}
+  function doNothing() {
+  }
 
   function createCoordinates(hasALiveCell, x, y) {
     var cell = hasALiveCell ? liveCell : deadCell;
@@ -60,6 +61,9 @@
     }
 
     return {
+      addCellAt: function (x, y, newCell) {
+
+      },
       nextLife: function () {
         var nextBoard = [];
         us.each(us.range(lowest('y'), highest('y')), function (yIndex) {
