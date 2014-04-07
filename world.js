@@ -7,9 +7,6 @@
   var deadCell = cellModule.deadCell;
   var coordinates = cellModule.coordinates;
 
-  function doNothing() {
-  }
-
   function createCoordinates(hasALiveCell, x, y) {
     var cell = hasALiveCell ? liveCell : deadCell;
     return coordinates(x, y, cell);
@@ -18,9 +15,6 @@
   function addLiveCellToBoardAt(x, y, isAlive, board) {
     if (isAlive) { board.push(createCoordinates(isAlive, x, y)); }
   }
-
-  function higherThan(currentHighest, compareTo) { return currentHighest > compareTo; }
-  function lowerThan(currentLowest, compareTo) { return currentLowest < compareTo; }
 
   module.exports = function () {
     var board = [];
@@ -31,12 +25,29 @@
       }) || createCoordinates(false, x, y);
     }
 
+    function findCellAtCoordinates(x, y) { return find(x, y).cell; }
+
     function addIfUniqueCoordinates(all, coordinate) {
       if (!us.find(all, function(existing) {
         return existing.hasSameLocationAs(coordinate);
       })) {
         all.push(coordinate);
       }
+    }
+
+    function dimensionRange(startCoordinates, endCoordinates, dimension) {
+      return us.range(startCoordinates[dimension], endCoordinates[dimension] + 1);
+    }
+
+    function coordinatesIterator(startCoordinates, endCoordinates) {
+      return function (coordinateAction, rowAction) {
+        us.each(dimensionRange(startCoordinates, endCoordinates, 'y'), function (pattern, yIndex) {
+          us.each(dimensionRange(startCoordinates, endCoordinates, 'x'), function (pattern, xIndex) {
+            coordinateAction(xIndex, yIndex);
+          });
+          rowAction();
+        });
+      };
     }
 
     return {
@@ -61,20 +72,11 @@
         });
         board = nextBoard;
       },
-      patternFor: function (startCoordinates, endCoordinates, xAction, yAction) {
-        xAction = us.isFunction(xAction) ? xAction : doNothing;
-        yAction = us.isFunction(yAction) ? yAction : doNothing;
-
-        var xRange = us.range(startCoordinates.x, endCoordinates.x + 1);
-        var yRange = us.range(startCoordinates.y, endCoordinates.y + 1);
-        us.each(yRange, function (pattern, yIndex) {
-          us.each(xRange, function (pattern, xIndex) {
-            find(xIndex, yIndex).cell.isAlive(function (isAlive) {
-              xAction(isAlive);
-            });
-          });
-          yAction();
-        });
+      patternFor: function (startCoordinates, endCoordinates, coordinateAction, rowAction) {
+        function isAliveAction(xIndex, yIndex) {
+          findCellAtCoordinates(xIndex, yIndex).isAlive(coordinateAction);
+        }
+        coordinatesIterator(startCoordinates, endCoordinates)(isAliveAction, rowAction);
       }
     };
   };
