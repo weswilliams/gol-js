@@ -59,7 +59,7 @@
 
     return {
       addCellAt: function (x, y, isAlive) {
-
+        addLiveCellToBoardAt(x,y,isAlive,board);
       },
       nextLife: function () {
         var nextBoard = [];
