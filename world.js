@@ -43,13 +43,20 @@
       return us.range(dimensionFilter(dimension, -1, lowerThan), dimensionFilter(dimension, 2, higherThan));
     }
 
+    function addIfUniqueCoordinates(all, coordinate) {
+      if (!us.find(all, function(existing) {
+        return existing.hasSameLocationAs(coordinate);
+      })) {
+        all.push(coordinate);
+      }
+    }
+
     return {
       liveCellsAndNeighbors: function() {
-        var cellsAndNeighbors = [];
+        var cellsAndNeighbors = us.map(board, function(coordinate) { return coordinate; });
         us.each(board, function(nextCoordinates) {
-          cellsAndNeighbors.push(nextCoordinates);
           nextCoordinates.forEachNeighbor(function(x, y) {
-            cellsAndNeighbors.push(createCoordinates(false, x, y));
+            addIfUniqueCoordinates(cellsAndNeighbors, createCoordinates(false, x, y));
           });
         });
         return cellsAndNeighbors;
