@@ -35,7 +35,6 @@ describe('world', function () {
     newWorld.addCellAt(1,1,true);
     newWorld.addCellAt(2,1,true);
     newWorld.liveCellsAndNeighbors().length.should.equal(1 + 1 + 7 + 3);
-    console.log(newWorld.liveCellsAndNeighbors());
   });
 
   it("should handle the still life block", function () {

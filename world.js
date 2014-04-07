@@ -31,18 +31,6 @@
       }) || createCoordinates(false, x, y);
     }
 
-    function dimensionFilter(dimension, neighborAdjustment, compare) {
-      return us.reduce(board, function (current, compareTo) {
-        if (!current) { return compareTo; }
-        if (compare(current[dimension], compareTo[dimension])) { return current; }
-        return compareTo;
-      })[dimension] + neighborAdjustment;
-    }
-
-    function rangeForNextLife(dimension) {
-      return us.range(dimensionFilter(dimension, -1, lowerThan), dimensionFilter(dimension, 2, higherThan));
-    }
-
     function addIfUniqueCoordinates(all, coordinate) {
       if (!us.find(all, function(existing) {
         return existing.hasSameLocationAs(coordinate);
