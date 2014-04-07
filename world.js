@@ -26,6 +26,7 @@
   function lowerThan(currentLowest, compareTo) { return currentLowest < compareTo; }
 
   module.exports = function (boardPattern) {
+    boardPattern = boardPattern || "";
     var board = [];
 
     parser(boardPattern, function(x, y, isAlive) {
