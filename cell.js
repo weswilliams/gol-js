@@ -30,6 +30,15 @@
     };
   }
 
+  function countLiveCellsIn(neighbors) {
+    return us.reduce(neighbors, function (count, neighbor) {
+      neighbor.cell.isAlive(function (isAlive) {
+        if (isAlive) { count++; }
+      });
+      return count;
+    }, 0);
+  }
+
   function coordinates(posX, posY, cell) {
     return {
       x: posX,
@@ -46,16 +55,7 @@
       neighbors: function (possibleNeighbors) {
         var neighbors = us.filter(possibleNeighbors, neighborsFilterFor(this));
         return {
-          numberAlive: function () {
-            return us.reduce(neighbors, function (count, neighbor) {
-              neighbor.cell.isAlive(function (isAlive) {
-                if (isAlive) {
-                  count++;
-                }
-              });
-              return count;
-            }, 0);
-          }
+          numberAlive: function() { return countLiveCellsIn(neighbors); }
         };
       }
     };
