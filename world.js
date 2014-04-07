@@ -15,20 +15,30 @@
     return coordinates(x, y, cell);
   }
 
-  function parseRowPattern(rowPattern, rowIndex) {
-    var rowCellStates = rowPattern.split('');
-    return us.map(rowCellStates, function (cellState, columnIndex) {
-      return createCoordinates(cellState === "1", columnIndex, rowIndex);
+  function parseRowPattern(rowPattern, rowIndex, action) {
+    us.each(rowPattern.split(''), function (cellState, columnIndex) {
+      action(columnIndex, rowIndex, cellState === "1");
     });
   }
 
-  function parseBoardPattern(boardPattern) {
-    return us.chain(boardPattern.split('\n'))
-      .map(parseRowPattern).flatten().value();
+  function parseBoardPattern(boardPattern, action) {
+    us.each(boardPattern.split('\n'), function(rowPattern, rowIndex) {
+      parseRowPattern(rowPattern, rowIndex, action);
+    });
   }
 
   module.exports = function (boardPattern) {
-    var board = parseBoardPattern(boardPattern);
+    var board = [];
+
+    function addLiveCellToBoardAt(x, y, isAlive, board) {
+      if (isAlive) {
+        board.push(createCoordinates(isAlive, x, y));
+      }
+    }
+
+    parseBoardPattern(boardPattern, function(x, y, isAlive) {
+      addLiveCellToBoardAt(x, y, isAlive, board);
+    });
 
     function find(x, y) {
       return us.find(board, function (cell) {
@@ -49,12 +59,6 @@
 
     function rangeForNextLife(dimension) {
       return us.range(dimensionFilter(dimension, -1, lowerThan), dimensionFilter(dimension, 2, higherThan));
-    }
-
-    function addLiveCellToBoardAt(x, y, isAlive, board) {
-      if (isAlive) {
-        board.push(createCoordinates(isAlive, x, y));
-      }
     }
 
     return {
