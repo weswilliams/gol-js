@@ -73,12 +73,12 @@
         });
         board = nextBoard;
       },
-      patternFor: function (startCell, endCell, xAction, yAction) {
+      patternFor: function (startCoordinates, endCoordinates, xAction, yAction) {
         xAction = us.isFunction(xAction) ? xAction : doNothing;
         yAction = us.isFunction(yAction) ? yAction : doNothing;
 
-        var xRange = us.range(startCell.x, endCell.x + 1);
-        var yRange = us.range(startCell.y, endCell.y + 1);
+        var xRange = us.range(startCoordinates.x, endCoordinates.x + 1);
+        var yRange = us.range(startCoordinates.y, endCoordinates.y + 1);
         us.each(yRange, function (pattern, yIndex) {
           us.each(xRange, function (pattern, xIndex) {
             find(xIndex, yIndex).cell.isAlive(function (isAlive) {
