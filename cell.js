@@ -61,8 +61,9 @@
     };
   }
 
+
   var liveCellRules = {
-    staysAliveInNextLife: function (neighbors, action) {
+    aliveInNextLife: function (neighbors, action) {
       var stayAlive = neighbors.numberAlive() === 2 || neighbors.numberAlive() === 3;
       if (action) {
         action(stayAlive);
@@ -71,22 +72,8 @@
     }
   };
 
-  var liveCell = {
-    isAlive: function (action) {
-      if (action) {
-        action(true);
-      }
-    },
-    aliveInNextLife: function (neighbors, action) {
-      return liveCellRules.staysAliveInNextLife(neighbors, action);
-    },
-    nextLife: function (neighbors, action) {
-      this.aliveInNextLife(neighbors, action);
-    }
-  };
-
   var deadCellRules = {
-    comeAliveInNextLife: function (neighbors, action) {
+    aliveInNextLife: function (neighbors, action) {
       var comesAlive = neighbors.numberAlive() === 3;
       if (action) {
         action(comesAlive);
@@ -94,19 +81,21 @@
     }
   };
 
-  var deadCell = {
-    isAlive: function (action) {
-      if (action) {
-        action(false);
+  var cell = function(rules, isAlive) {
+    return {
+      isAlive: function (action) {
+        if (action) { action(isAlive); }
+      },
+      nextLife: function (neighbors, action) {
+        return rules.aliveInNextLife(neighbors, action);
       }
-    },
-    aliveInNextLife: function (neighbors, action) {
-      return deadCellRules.comeAliveInNextLife(neighbors, action);
-    },
-    nextLife: function (neighbors, action) {
-      this.aliveInNextLife(neighbors, action);
-    }
+    };
   };
+
+  var liveCell = cell(liveCellRules, true);
+
+  var deadCell = cell(deadCellRules, false
+);
 
   module.exports.coordinates = coordinates;
   module.exports.deadCell = deadCell;
