@@ -51,8 +51,14 @@
       return us.range(dimensionFilter(dimension, -1, lowerThan), dimensionFilter(dimension, 2, higherThan));
     }
 
+    function addLiveCellToBoardAt(x, y, isAlive, board) {
+      if (isAlive) {
+        board.push(createCoordinates(isAlive, x, y));
+      }
+    }
+
     return {
-      addCellAt: function (x, y, newCell) {
+      addCellAt: function (x, y, isAlive) {
 
       },
       nextLife: function () {
@@ -60,9 +66,7 @@
         us.each(rangeForNextLife('y'), function (yIndex) {
           us.each(rangeForNextLife('x'), function (xIndex) {
             find(xIndex, yIndex).nextLife(board, function (livesInNextLife) {
-              if (livesInNextLife) {
-                nextBoard.push(createCoordinates(livesInNextLife, xIndex, yIndex));
-              }
+              addLiveCellToBoardAt(xIndex,yIndex,livesInNextLife,nextBoard);
             });
           });
         });
