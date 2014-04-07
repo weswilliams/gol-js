@@ -66,11 +66,9 @@
       },
       nextLife: function () {
         var nextBoard = [];
-        us.each(rangeForNextLife('y'), function (yIndex) {
-          us.each(rangeForNextLife('x'), function (xIndex) {
-            find(xIndex, yIndex).nextLife(board, function (livesInNextLife) {
-              addLiveCellToBoardAt(xIndex,yIndex,livesInNextLife,nextBoard);
-            });
+        us.each(this.liveCellsAndNeighbors(), function(coordinates) {
+          coordinates.nextLife(board, function(livesInNextLife) {
+            addLiveCellToBoardAt(coordinates.x, coordinates.y, livesInNextLife, nextBoard);
           });
         });
         board = nextBoard;
