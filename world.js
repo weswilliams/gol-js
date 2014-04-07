@@ -2,6 +2,7 @@
   "use strict";
 
   var us = require('underscore');
+  var parser = require('./patternparser.js');
   var cellModule = require('./cell.js');
   var liveCell = cellModule.liveCell;
   var deadCell = cellModule.deadCell;
@@ -15,28 +16,19 @@
     return coordinates(x, y, cell);
   }
 
-  function parseRowPattern(rowPattern, rowIndex, action) {
-    us.each(rowPattern.split(''), function (cellState, columnIndex) {
-      action(columnIndex, rowIndex, cellState === "1");
-    });
+  function addLiveCellToBoardAt(x, y, isAlive, board) {
+    if (isAlive) {
+      board.push(createCoordinates(isAlive, x, y));
+    }
   }
 
-  function parseBoardPattern(boardPattern, action) {
-    us.each(boardPattern.split('\n'), function(rowPattern, rowIndex) {
-      parseRowPattern(rowPattern, rowIndex, action);
-    });
-  }
+  function higherThan(currentHighest, compareTo) { return currentHighest > compareTo; }
+  function lowerThan(currentLowest, compareTo) { return currentLowest < compareTo; }
 
   module.exports = function (boardPattern) {
     var board = [];
 
-    function addLiveCellToBoardAt(x, y, isAlive, board) {
-      if (isAlive) {
-        board.push(createCoordinates(isAlive, x, y));
-      }
-    }
-
-    parseBoardPattern(boardPattern, function(x, y, isAlive) {
+    parser(boardPattern, function(x, y, isAlive) {
       addLiveCellToBoardAt(x, y, isAlive, board);
     });
 
@@ -45,9 +37,6 @@
         return cell.x === x && cell.y === y;
       }) || createCoordinates(false, x, y);
     }
-
-    function higherThan(currentHighest, compareTo) { return currentHighest > compareTo; }
-    function lowerThan(currentLowest, compareTo) { return currentLowest < compareTo; }
 
     function dimensionFilter(dimension, neighborAdjustment, compare) {
       return us.reduce(board, function (current, compareTo) {
