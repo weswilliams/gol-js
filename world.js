@@ -25,13 +25,8 @@
   function higherThan(currentHighest, compareTo) { return currentHighest > compareTo; }
   function lowerThan(currentLowest, compareTo) { return currentLowest < compareTo; }
 
-  module.exports = function (boardPattern) {
-    boardPattern = boardPattern || "";
+  module.exports = function () {
     var board = [];
-
-    parser(boardPattern, function(x, y, isAlive) {
-      addLiveCellToBoardAt(x, y, isAlive, board);
-    });
 
     function find(x, y) {
       return us.find(board, function (cell) {
