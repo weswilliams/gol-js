@@ -36,28 +36,19 @@
       }) || createCoordinates(false, x, y);
     }
 
-    function highest(dimension) {
-      return us.reduce(board, function (highest, compareTo) {
-        if (!highest) {
-          return compareTo;
-        }
-        if (highest[dimension] > compareTo[dimension]) {
-          return highest;
-        }
+    function higherThan(currentHighest, compareTo) { return currentHighest > compareTo; }
+    function lowerThan(currentLowest, compareTo) { return currentLowest < compareTo; }
+
+    function dimensionFilter(dimension, neighborAdjustment, compare) {
+      return us.reduce(board, function (current, compareTo) {
+        if (!current) { return compareTo; }
+        if (compare(current[dimension], compareTo[dimension])) { return current; }
         return compareTo;
-      })[dimension] + 2;
+      })[dimension] + neighborAdjustment;
     }
 
-    function lowest(dimension) {
-      return us.reduce(board, function (lowest, compareTo) {
-        if (!lowest) {
-          return compareTo;
-        }
-        if (lowest[dimension] < compareTo[dimension]) {
-          return lowest;
-        }
-        return compareTo;
-      })[dimension] - 1;
+    function rangeForNextLife(dimension) {
+      return us.range(dimensionFilter(dimension, -1, lowerThan), dimensionFilter(dimension, 2, higherThan));
     }
 
     return {
@@ -66,8 +57,8 @@
       },
       nextLife: function () {
         var nextBoard = [];
-        us.each(us.range(lowest('y'), highest('y')), function (yIndex) {
-          us.each(us.range(lowest('x'), highest('x')), function (xIndex) {
+        us.each(rangeForNextLife('y'), function (yIndex) {
+          us.each(rangeForNextLife('x'), function (xIndex) {
             find(xIndex, yIndex).nextLife(board, function (livesInNextLife) {
               if (livesInNextLife) {
                 nextBoard.push(createCoordinates(livesInNextLife, xIndex, yIndex));
