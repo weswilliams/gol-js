@@ -17,7 +17,7 @@
   }
 
   module.exports = function () {
-    var board = [];
+    var board = [], lifeCount = 1;
 
     function find(x, y) {
       return us.find(board, function (cell) {
@@ -51,6 +51,7 @@
     }
 
     return {
+      lifeCount: function() { return lifeCount; },
       liveCellsAndNeighbors: function() {
         var cellsAndNeighbors = us.map(board, function(coordinate) { return coordinate; });
         us.each(board, function(nextCoordinates) {
@@ -71,6 +72,7 @@
           });
         });
         board = nextBoard;
+        lifeCount++;
       },
       patternFor: function (startCoordinates, endCoordinates, coordinateAction, rowAction) {
         function isAliveAction(xIndex, yIndex) {

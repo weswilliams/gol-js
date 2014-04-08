@@ -33,8 +33,12 @@ function forEachY() {
 }
 setInterval(function(){
   clear();
+  var adjustForStatusLine = 2;
+  var adjustFor0Base = 1;
   game.nextLife();
   pattern = "";
-  game.patternFor({x:0,y:0}, {x:width-1,y:height-1},forEachX, forEachY);
-  util.puts(pattern);
+  game.patternFor({x:0,y:0}, {x:width-adjustFor0Base,y:height-adjustFor0Base-adjustForStatusLine},
+    forEachX, forEachY);
+  util.print(pattern);
+  util.print("life number: " + game.lifeCount());
 },gameSpeed);
