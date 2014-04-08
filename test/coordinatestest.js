@@ -12,9 +12,9 @@ function coordinateWithCell(hasALiveCell, x, y) {
 
 describe("coordinate system", function () {
   it('should have coordinates', function () {
-    var coordinate0_0 = coordinates(0, 1);
-    coordinate0_0.x.should.equal(0);
-    coordinate0_0.y.should.equal(1);
+    var coordinate0_1 = coordinates(0, 1);
+    coordinate0_1.x.should.equal(0);
+    coordinate0_1.y.should.equal(1);
   });
 });
 
