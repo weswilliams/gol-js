@@ -2,36 +2,10 @@
   "use strict";
 
   var us = require("underscore");
+  var neighborsFilter = require("./neighborsFilter.js");
 
   function neighborRangeFor(me, dimension) {
     return us.range(me[dimension] - 1, me[dimension] + 2);
-  }
-
-  function neighborsFilterFor(me) {
-    var neighborXRange = neighborRangeFor(me, 'x');
-    var neighborYRange = neighborRangeFor(me, 'y');
-
-    function and(predicates, parameters) {
-      return us.reduce(predicates, function (decision, predicate) {
-        return decision && predicate(parameters);
-      }, true);
-    }
-
-    function isXNeighbor(possibleNeighbor) {
-      return us.contains(neighborXRange, possibleNeighbor.x);
-    }
-
-    function isYNeighbor(possibleNeighbor) {
-      return us.contains(neighborYRange, possibleNeighbor.y);
-    }
-
-    function isNotMe(possibleNeighbor) {
-      return me.atDifferentLocationThan(possibleNeighbor);
-    }
-
-    return function isNeighbor(possibleNeighbor) {
-      return and([isNotMe, isXNeighbor, isYNeighbor], possibleNeighbor);
-    };
   }
 
   function countLiveCellsIn(neighbors) {
@@ -67,7 +41,8 @@
         return !this.hasSameLocationAs(compareCoordinates);
       },
       neighbors: function (possibleNeighbors) {
-        var neighbors = us.filter(possibleNeighbors, neighborsFilterFor(this));
+        var filter = neighborsFilter(this, neighborRangeFor(this, 'x'), neighborRangeFor(this, 'y'));
+        var neighbors = us.filter(possibleNeighbors, filter);
         return {
           numberAlive: function () {
             return countLiveCellsIn(neighbors);
