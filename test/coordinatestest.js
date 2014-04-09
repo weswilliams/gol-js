@@ -3,7 +3,7 @@ var assert = require("assert");
 var should = require('should');
 var liveCell = require("../cell.js").liveCell;
 var deadCell = require("../cell.js").deadCell;
-var coordinates = require("../cell.js").coordinates;
+var coordinates = require("../coordinates.js");
 
 function coordinateWithCell(hasALiveCell, x, y) {
   var cell = hasALiveCell ? liveCell : deadCell;

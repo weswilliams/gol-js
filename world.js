@@ -5,7 +5,7 @@
   var cellModule = require('./cell.js');
   var liveCell = cellModule.liveCell;
   var deadCell = cellModule.deadCell;
-  var coordinates = cellModule.coordinates;
+  var coordinates = require('./coordinates.js');
 
   function createCoordinates(hasALiveCell, x, y) {
     var cell = hasALiveCell ? liveCell : deadCell;
