@@ -10,11 +10,7 @@
 
   function countLiveCellsIn(neighbors) {
     return us.reduce(neighbors, function (count, neighbor) {
-      neighbor.cell.isAlive(function (isAlive) {
-        if (isAlive) {
-          count++;
-        }
-      });
+      neighbor.cell.isAlive(function (isAlive) { if (isAlive) { count++; } });
       return count;
     }, 0);
   }

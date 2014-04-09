@@ -25,8 +25,13 @@ function clear() {
 }
 
 var pattern;
+var xLifeTypePrinters = {
+  true: "X",
+  false: " "
+};
+
 function forEachX(isAlive) {
-  pattern += isAlive ? "X" : " ";
+  pattern += xLifeTypePrinters[isAlive];
 }
 function forEachY() {
   pattern += "\n";
