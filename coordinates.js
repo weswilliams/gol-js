@@ -8,8 +8,8 @@
   }
 
   function neighborsFilterFor(me) {
-    var neighborXRange = us.range(me.x - 1, me.x + 2);
-    var neighborYRange = us.range(me.y - 1, me.y + 2);
+    var neighborXRange = neighborRangeFor(me, 'x');
+    var neighborYRange = neighborRangeFor(me, 'y');
 
     function and(predicates, parameters) {
       return us.reduce(predicates, function (decision, predicate) {
