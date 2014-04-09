@@ -3,7 +3,9 @@
 
   var us = require("underscore");
 
-  function neighborRangeFor(me, dimension) { return us.range(me[dimension] - 1, me[dimension] + 2); }
+  function neighborRangeFor(me, dimension) {
+    return us.range(me[dimension] - 1, me[dimension] + 2);
+  }
 
   function neighborsFilterFor(me) {
     var neighborXRange = us.range(me.x - 1, me.x + 2);
@@ -35,10 +37,16 @@
   function countLiveCellsIn(neighbors) {
     return us.reduce(neighbors, function (count, neighbor) {
       neighbor.cell.isAlive(function (isAlive) {
-        if (isAlive) { count++; }
+        if (isAlive) {
+          count++;
+        }
       });
       return count;
     }, 0);
+  }
+
+  function dimensionRange(startCoordinates, endCoordinates, dimension) {
+    return us.range(startCoordinates[dimension], endCoordinates[dimension] + 1);
   }
 
   function coordinates(posX, posY, cell) {
@@ -55,23 +63,38 @@
       hasSameLocationAs: function (compareCoordinates) {
         return this.x === compareCoordinates.x && this.y === compareCoordinates.y;
       },
-      atDifferentLocationThan: function(compareCoordinates) {
+      atDifferentLocationThan: function (compareCoordinates) {
         return !this.hasSameLocationAs(compareCoordinates);
       },
       neighbors: function (possibleNeighbors) {
         var neighbors = us.filter(possibleNeighbors, neighborsFilterFor(this));
         return {
-          numberAlive: function() { return countLiveCellsIn(neighbors); }
+          numberAlive: function () {
+            return countLiveCellsIn(neighbors);
+          }
         };
       },
-      forEachNeighbor: function(action) {
+      forEachNeighbor: function (action) {
         var me = this;
-        us.each(neighborRangeFor(me,'x'), function(x) {
-          us.each(neighborRangeFor(me,'y'), function(y) {
-            if (me.atDifferentLocationThan({x: x, y: y})) { action(x, y); }
+        us.each(neighborRangeFor(me, 'x'), function (x) {
+          us.each(neighborRangeFor(me, 'y'), function (y) {
+            if (me.atDifferentLocationThan({x: x, y: y})) {
+              action(x, y);
+            }
           });
         });
       }
+    };
+  }
+
+  coordinates.coordinatesIterator = function(startCoordinates, endCoordinates) {
+    return function (coordinateAction, rowAction) {
+      us.each(dimensionRange(startCoordinates, endCoordinates, 'y'), function (pattern, yIndex) {
+        us.each(dimensionRange(startCoordinates, endCoordinates, 'x'), function (pattern, xIndex) {
+          coordinateAction(xIndex, yIndex);
+        });
+        rowAction();
+      });
     };
   }
 
@@ -95,10 +118,12 @@
     }
   };
 
-  var cell = function(rules, isAlive) {
+  var cell = function (rules, isAlive) {
     return {
       isAlive: function (action) {
-        if (action) { action(isAlive); }
+        if (action) {
+          action(isAlive);
+        }
       },
       nextLife: function (neighbors, action) {
         return rules.aliveInNextLife(neighbors, action);

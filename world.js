@@ -35,21 +35,6 @@
       }
     }
 
-    function dimensionRange(startCoordinates, endCoordinates, dimension) {
-      return us.range(startCoordinates[dimension], endCoordinates[dimension] + 1);
-    }
-
-    function coordinatesIterator(startCoordinates, endCoordinates) {
-      return function (coordinateAction, rowAction) {
-        us.each(dimensionRange(startCoordinates, endCoordinates, 'y'), function (pattern, yIndex) {
-          us.each(dimensionRange(startCoordinates, endCoordinates, 'x'), function (pattern, xIndex) {
-            coordinateAction(xIndex, yIndex);
-          });
-          rowAction();
-        });
-      };
-    }
-
     return {
       lifeCount: function() { return lifeCount; },
       liveCellsAndNeighbors: function() {
@@ -78,7 +63,7 @@
         function isAliveAction(xIndex, yIndex) {
           findCellAtCoordinates(xIndex, yIndex).isAlive(coordinateAction);
         }
-        coordinatesIterator(startCoordinates, endCoordinates)(isAliveAction, rowAction);
+        coordinates.coordinatesIterator(startCoordinates, endCoordinates)(isAliveAction, rowAction);
       }
     };
   };
