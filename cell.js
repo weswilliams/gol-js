@@ -35,10 +35,6 @@
     };
   };
 
-  var liveCell = cell(liveCellRules, true);
-
-  var deadCell = cell(deadCellRules, false);
-
-  module.exports.deadCell = deadCell;
-  module.exports.liveCell = liveCell;
+  module.exports.deadCell = cell(deadCellRules, false);
+  module.exports.liveCell = cell(liveCellRules, true);
 })();
