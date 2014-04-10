@@ -2,7 +2,6 @@
 
 var world = require("../world.js");
 var parser = require("../patternparser.js");
-var deadCell = require("../cell.js").deadCell;
 var liveCell = require("../cell.js").liveCell;
 
 var pattern;
