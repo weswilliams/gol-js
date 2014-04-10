@@ -17,10 +17,6 @@
     return coordinates(x, y, cell);
   }
 
-  function addLiveCellToBoardAt(x, y, isAlive, board) {
-    if (isAlive) { board.push(createCoordinates(isAlive, x, y)); }
-  }
-
   module.exports = function () {
     var board = [], lifeCount = 1;
 
