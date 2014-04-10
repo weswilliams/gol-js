@@ -10,7 +10,8 @@
   }
 
   function countLiveCellsIn(neighbors) {
-    return us.filter(neighbors, function (neighbor) { return neighbor.cell === liveCell; }).length;
+    return us.filter(neighbors, function (neighbor) {
+      return neighbor.cell === liveCell; }).length;
   }
 
   function dimensionRange(startCoordinates, endCoordinates, dimension) {
