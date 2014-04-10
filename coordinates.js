@@ -25,9 +25,7 @@
       y: posY,
       cell: cell,
       nextLife: function (allCoordinates, action) {
-        cell.nextLife(this.neighbors(allCoordinates), function (isAlive, cell) {
-          action(isAlive, cell);
-        });
+        cell.nextLife(this.neighbors(allCoordinates), action);
       },
       hasSameLocationAs: function (compareCoordinates) {
         return this.x === compareCoordinates.x && this.y === compareCoordinates.y;

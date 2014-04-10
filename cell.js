@@ -1,6 +1,12 @@
 (function () {
   "use strict";
 
+  var zombieCellRules = {
+    aliveInNextLife: function (neighbors, action) {
+      action("zombie");
+    }
+  };
+
   var liveCellRules = {
     aliveInNextLife: function (neighbors, action) {
       var stayAlive = neighbors.numberAlive() === 2 || neighbors.numberAlive() === 3;
@@ -37,12 +43,15 @@
 
   var liveCell = cell(liveCellRules, true);
   var deadCell = cell(deadCellRules, false);
+  var zombieCell = cell(zombieCellRules, true);
 
   var nextLifeCell = {
     true: liveCell,
-    false: deadCell
+    false: deadCell,
+    zombie: zombieCell
   };
 
   module.exports.deadCell = deadCell;
   module.exports.liveCell = liveCell;
+  module.exports.zombieCell = zombieCell;
 })();
