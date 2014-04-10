@@ -2,6 +2,8 @@
 
 var world = require("../world.js");
 var parser = require("../patternparser.js");
+var deadCell = require("../cell.js").deadCell;
+var liveCell = require("../cell.js").liveCell;
 
 var pattern;
 function onNewY() {
@@ -19,21 +21,21 @@ describe('world', function () {
 
   it("should build a list of live cells with neighbors", function() {
     var newWorld = world();
-    newWorld.addCellAt(1,1,true);
+    newWorld.addCellAt(1,1,liveCell);
     newWorld.liveCellsAndNeighbors().length.should.equal(9);
   });
 
   it("should build a list of live cells with neighbors and no duplicate neighbors", function() {
     var newWorld = world();
-    newWorld.addCellAt(1,1,true);
-    newWorld.addCellAt(3,1,true);
+    newWorld.addCellAt(1,1,liveCell);
+    newWorld.addCellAt(3,1,liveCell);
     newWorld.liveCellsAndNeighbors().length.should.equal(1 + 1 + 8 + 5);
   });
 
   it("should build a list of live cells with neighbors and no duplicate live cells", function() {
     var newWorld = world();
-    newWorld.addCellAt(1,1,true);
-    newWorld.addCellAt(2,1,true);
+    newWorld.addCellAt(1,1,liveCell);
+    newWorld.addCellAt(2,1,liveCell);
     newWorld.liveCellsAndNeighbors().length.should.equal(1 + 1 + 7 + 3);
   });
 

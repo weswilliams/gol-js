@@ -2,10 +2,12 @@
   "use strict";
 
   var us = require('underscore');
+  var cellModule = require("./cell.js");
 
   function parseRowPattern(rowPattern, rowIndex, action) {
     us.each(rowPattern.split(''), function (cellState, columnIndex) {
-      action(columnIndex, rowIndex, cellState === "1");
+      var cell = (cellState === "1" ? cellModule.liveCell : cellModule.deadCell);
+      action(columnIndex, rowIndex, cell);
     });
   }
 

@@ -3,16 +3,14 @@
 
   var us = require("underscore");
   var neighborsFilter = require("./neighborsFilter.js");
+  var liveCell = require("./cell.js").liveCell;
 
   function neighborRangeFor(me, dimension) {
     return us.range(me[dimension] - 1, me[dimension] + 2);
   }
 
   function countLiveCellsIn(neighbors) {
-    return us.reduce(neighbors, function (count, neighbor) {
-      neighbor.cell.isAlive(function (isAlive) { if (isAlive) { count++; } });
-      return count;
-    }, 0);
+    return us.filter(neighbors, function (neighbor) { return neighbor.cell === liveCell; }).length;
   }
 
   function dimensionRange(startCoordinates, endCoordinates, dimension) {
@@ -26,8 +24,8 @@
       y: posY,
       cell: cell,
       nextLife: function (allCoordinates, action) {
-        cell.nextLife(this.neighbors(allCoordinates), function (cell) {
-          action(cell);
+        cell.nextLife(this.neighbors(allCoordinates), function (isAlive, cell) {
+          action(isAlive, cell);
         });
       },
       hasSameLocationAs: function (compareCoordinates) {

@@ -29,7 +29,7 @@
       },
       nextLife: function (neighbors, action) {
         return rules.aliveInNextLife(neighbors, function(isAlive) {
-          action(isAlive, nextLifeCell[isAlive]);
+          action(nextLifeCell[isAlive]);
         });
       }
     };

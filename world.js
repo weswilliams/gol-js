@@ -7,6 +7,11 @@
   var deadCell = cellModule.deadCell;
   var coordinates = require('./coordinates.js');
 
+  liveCell.addAction = function(x, y, liveCell, board) {
+    board.push(coordinates(x, y, liveCell));
+  };
+  deadCell.addAction = function() { };
+
   function createCoordinates(hasALiveCell, x, y) {
     var cell = hasALiveCell ? liveCell : deadCell;
     return coordinates(x, y, cell);
@@ -46,14 +51,15 @@
         });
         return cellsAndNeighbors;
       },
-      addCellAt: function (x, y, isAlive) {
-        addLiveCellToBoardAt(x,y,isAlive,board);
+      addCellAt: function (x, y, cell) {
+//        addLiveCellToBoardAt(x,y,cell,board);
+        cell.addAction(x,y,cell,board);
       },
       nextLife: function () {
         var nextBoard = [];
         us.each(this.liveCellsAndNeighbors(), function(coordinates) {
-          coordinates.nextLife(board, function(livesInNextLife) {
-            addLiveCellToBoardAt(coordinates.x, coordinates.y, livesInNextLife, nextBoard);
+          coordinates.nextLife(board, function(nextLifeCell) {
+            nextLifeCell.addAction(coordinates.x, coordinates.y, nextLifeCell, nextBoard);
           });
         });
         board = nextBoard;
