@@ -9,6 +9,11 @@
     return us.range(me[dimension] - 1, me[dimension] + 2);
   }
 
+  function countCellsIn(neighbors, cell) {
+    return us.filter(neighbors, function (neighbor) {
+      return neighbor.cell === cell; }).length;
+  }
+
   function countLiveCellsIn(neighbors) {
     return us.filter(neighbors, function (neighbor) {
       return neighbor.cell === liveCell; }).length;
@@ -37,8 +42,8 @@
         var filter = neighborsFilter(this, neighborRangeFor(this, 'x'), neighborRangeFor(this, 'y'));
         var neighbors = us.filter(possibleNeighbors, filter);
         return {
-          numberAlive: function () {
-            return countLiveCellsIn(neighbors);
+          numberOf: function(cell) {
+            return countCellsIn(neighbors, cell);
           }
         };
       },

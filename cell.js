@@ -9,17 +9,17 @@
 
   var liveCellRules = {
     aliveInNextLife: function (neighbors, action) {
-      var stayAlive = neighbors.numberAlive() === 2 || neighbors.numberAlive() === 3;
-      if (action) {
-        action(stayAlive);
-      }
+      var numberLive = neighbors.numberOf(liveCell);
+      var stayAlive = numberLive === 2 || numberLive === 3;
+      stayAlive = neighbors.numberOf(zombieCell) === 1 ? "zombie" : stayAlive
+      action(stayAlive);
       return  stayAlive;
     }
   };
 
   var deadCellRules = {
     aliveInNextLife: function (neighbors, action) {
-      var comesAlive = neighbors.numberAlive() === 3;
+      var comesAlive = neighbors.numberOf(liveCell) === 3;
       if (action) {
         action(comesAlive);
       }
