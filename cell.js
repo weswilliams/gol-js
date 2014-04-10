@@ -1,8 +1,6 @@
 (function () {
   "use strict";
 
-  var us = require("underscore");
-
   var liveCellRules = {
     aliveInNextLife: function (neighbors, action) {
       var stayAlive = neighbors.numberAlive() === 2 || neighbors.numberAlive() === 3;
@@ -30,11 +28,21 @@
         }
       },
       nextLife: function (neighbors, action) {
-        return rules.aliveInNextLife(neighbors, action);
+        return rules.aliveInNextLife(neighbors, function(isAlive) {
+          action(isAlive, nextLifeCell[isAlive]);
+        });
       }
     };
   };
 
-  module.exports.deadCell = cell(deadCellRules, false);
-  module.exports.liveCell = cell(liveCellRules, true);
+  var liveCell = cell(liveCellRules, true);
+  var deadCell = cell(deadCellRules, false);
+
+  var nextLifeCell = {
+    true: liveCell,
+    false: deadCell
+  };
+
+  module.exports.deadCell = deadCell;
+  module.exports.liveCell = liveCell;
 })();
