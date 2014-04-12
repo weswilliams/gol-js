@@ -9,9 +9,9 @@
     return us.range(me[dimension] - 1, me[dimension] + 2);
   }
 
-  function countCellsIn(neighbors, cell) {
+  function countCellsIn(neighbors, cellType) {
     return us.filter(neighbors, function (neighbor) {
-      return neighbor.cell === cell; }).length;
+      return neighbor.cell === cellType; }).length;
   }
 
   function dimensionRange(startCoordinates, endCoordinates, dimension) {
@@ -37,8 +37,8 @@
         var filter = neighborsFilter(this, neighborRangeFor(this, 'x'), neighborRangeFor(this, 'y'));
         var neighbors = us.filter(possibleNeighbors, filter);
         return {
-          numberOf: function(cell) {
-            return countCellsIn(neighbors, cell);
+          numberOf: function(cellType) {
+            return countCellsIn(neighbors, cellType);
           }
         };
       },
