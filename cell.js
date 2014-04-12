@@ -3,56 +3,46 @@
 
   var zombieCellRules = {
     aliveInNextLife: function (neighbors, action) {
-      action("zombie");
+      action(zombieCell);
     }
   };
 
   var liveCellRules = {
-    aliveInNextLife: function (neighbors, action) {
+    becomesZombie: function (neighbors) {
+      return neighbors.numberOf(zombieCell) > 0 ? zombieCell : undefined;
+    },
+    livesOrDies: function(neighbors) {
       var numberLive = neighbors.numberOf(liveCell);
-      var stayAlive = numberLive === 2 || numberLive === 3;
-      stayAlive = neighbors.numberOf(zombieCell) === 1 ? "zombie" : stayAlive;
-      action(stayAlive);
-      return  stayAlive;
+      return (numberLive === 2 || numberLive === 3) ?
+        liveCell : deadCell;
+    },
+    aliveInNextLife: function (neighbors, action) {
+      action(
+        this.becomesZombie(neighbors) ||
+        this.livesOrDies(neighbors));
     }
   };
 
   var deadCellRules = {
     aliveInNextLife: function (neighbors, action) {
-      var comesAlive = neighbors.numberOf(liveCell) === 3;
-      if (action) {
-        action(comesAlive);
-      }
+      action(neighbors.numberOf(liveCell) === 3 ?
+        liveCell : deadCell);
     }
   };
 
-  var cell = function (rules, isAlive) {
+  var cell = function (rules) {
     return {
-      isAlive: function (action) {
-        if (action) {
-          action(isAlive);
-        }
-      },
       nextLife: function (neighbors, action) {
-        return rules.aliveInNextLife(neighbors, function(isAlive) {
-          action(nextLifeCell[isAlive]);
+        return rules.aliveInNextLife(neighbors, function(nextLife) {
+          action(nextLife);
         });
       }
     };
   };
 
-  var liveCell = cell(liveCellRules, true);
-  liveCell.isAlive = function(action) { action(liveCell); };
-  var deadCell = cell(deadCellRules, false);
-  deadCell.isAlive = function(action) { action(deadCell); };
-  var zombieCell = cell(zombieCellRules, true);
-  zombieCell.isAlive = function(action) { action(zombieCell); };
-
-  var nextLifeCell = {
-    true: liveCell,
-    false: deadCell,
-    zombie: zombieCell
-  };
+  var liveCell = cell(liveCellRules);
+  var deadCell = cell(deadCellRules);
+  var zombieCell = cell(zombieCellRules);
 
   module.exports.deadCell = deadCell;
   module.exports.liveCell = liveCell;

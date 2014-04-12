@@ -66,7 +66,7 @@
       },
       patternFor: function (startCoordinates, endCoordinates, coordinateAction, rowAction) {
         function isAliveAction(xIndex, yIndex) {
-          findCellAtCoordinates(xIndex, yIndex).isAlive(coordinateAction);
+          coordinateAction(findCellAtCoordinates(xIndex, yIndex));
         }
         coordinates.coordinatesIterator(startCoordinates, endCoordinates)(isAliveAction, rowAction);
       }
