@@ -4,12 +4,13 @@
   var us = require('underscore');
   var cellModule = require("./cell.js");
   var cellStringToType = {
-    cellType: function(cellString) {
+    cellType: function(cellString, action) {
       if (this.hasOwnProperty(cellString)) {
-        return this[cellString];
+        action(this[cellString]);
+      } else {
+        console.log("Invalid cell string in pattern: " + cellString);
+        action(cellModule.deadCell);
       }
-      console.log("Invalid cell string in pattern: " + cellString);
-      return cellModule.deadCell;
     },
     "1": cellModule.liveCell,
     "0": cellModule.deadCell,
@@ -18,8 +19,9 @@
 
   function parseRowPattern(rowPattern, rowIndex, action) {
     us.each(rowPattern.split(''), function (cellState, columnIndex) {
-      var cell = cellStringToType.cellType(cellState);
-      action(columnIndex, rowIndex, cell);
+      cellStringToType.cellType(cellState, function(cell) {
+        action(columnIndex, rowIndex, cell);
+      });
     });
   }
 
