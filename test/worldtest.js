@@ -28,9 +28,6 @@ describe('world', function () {
     var newWorld = world();
     newWorld.addCellAt(1,1, liveCell);
     newWorld.addCellAt(2,1, zombieCell);
-    // 0000
-    // 01!0
-    // 0000
     newWorld.nextLife();
     newWorld.patternFor({x: 1, y: 0}, {x: 3, y: 2}, onNewX, onNewY);
     pattern.trim().should.equal("!!!\n!!!\n!!!");
@@ -120,4 +117,12 @@ describe('world', function () {
     newWorld.patternFor({x:0,y:0}, {x:4,y:4}, onNewX, onNewY);
     pattern.trim().should.equal("00000\n00000\n01010\n00110\n00100");
   });
+
+  it("should parse unknown character to dead cell", function() {
+    var newWorld = world();
+    parser("?", function(x,y,isAlive) { newWorld.addCellAt(x,y,isAlive); });
+    newWorld.patternFor({x:0,y:0}, {x:0,y:0}, onNewX, onNewY);
+    pattern.trim().should.equal("0");
+  });
+
 });
