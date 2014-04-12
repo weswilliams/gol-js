@@ -3,7 +3,7 @@
 
   var us = require("underscore");
   var neighborsFilter = require("./neighborsFilter.js");
-  var liveCell = require("./cell.js").liveCell;
+
 
   function neighborRangeFor(me, dimension) {
     return us.range(me[dimension] - 1, me[dimension] + 2);
@@ -14,13 +14,8 @@
       return neighbor.cell === cell; }).length;
   }
 
-  function countLiveCellsIn(neighbors) {
-    return us.filter(neighbors, function (neighbor) {
-      return neighbor.cell === liveCell; }).length;
-  }
-
   function dimensionRange(startCoordinates, endCoordinates, dimension) {
-    return us.range(startCoordinates[dimension], endCoordinates[dimension] + 1);
+    return  us.range(startCoordinates[dimension], endCoordinates[dimension] + 1);
   }
 
   function coordinates(posX, posY, cell) {
@@ -62,8 +57,9 @@
 
   coordinates.coordinatesIterator = function (startCoordinates, endCoordinates) {
     return function (coordinateAction, rowAction) {
-      us.each(dimensionRange(startCoordinates, endCoordinates, 'y'), function (pattern, yIndex) {
-        us.each(dimensionRange(startCoordinates, endCoordinates, 'x'), function (pattern, xIndex) {
+      us.each(dimensionRange(startCoordinates, endCoordinates, 'y'), function (yIndex) {
+        us.each(dimensionRange(startCoordinates, endCoordinates, 'x'), function (xIndex) {
+          console.log("x: " + xIndex + ", y: " + yIndex);
           coordinateAction(xIndex, yIndex);
         });
         rowAction();
