@@ -1,6 +1,10 @@
 (function () {
   "use strict";
 
+  function becomesZombie(neighbors) {
+    return neighbors.numberOf(zombieCell) > 0 ? zombieCell : undefined;
+  }
+
   var zombieCellRules = {
     aliveInNextLife: function (neighbors, action) {
       action(zombieCell);
@@ -8,9 +12,6 @@
   };
 
   var liveCellRules = {
-    becomesZombie: function (neighbors) {
-      return neighbors.numberOf(zombieCell) > 0 ? zombieCell : undefined;
-    },
     livesOrDies: function(neighbors) {
       var numberLive = neighbors.numberOf(liveCell);
       return (numberLive === 2 || numberLive === 3) ?
@@ -18,15 +19,19 @@
     },
     aliveInNextLife: function (neighbors, action) {
       action(
-        this.becomesZombie(neighbors) ||
+        becomesZombie(neighbors) ||
         this.livesOrDies(neighbors));
     }
   };
 
   var deadCellRules = {
+    comesAlive: function(neighbors) {
+      return neighbors.numberOf(liveCell) === 3 ?
+        liveCell : deadCell;
+    },
     aliveInNextLife: function (neighbors, action) {
-      action(neighbors.numberOf(liveCell) === 3 ?
-        liveCell : deadCell);
+      action(becomesZombie(neighbors) ||
+        this.comesAlive(neighbors));
     }
   };
 
