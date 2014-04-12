@@ -27,7 +27,8 @@ function clear() {
 var pattern;
 var xLifeTypePrinters = {
   true: "X",
-  false: " "
+  false: " ",
+  zombie: "*"
 };
 
 function forEachX(isAlive) {

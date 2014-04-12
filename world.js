@@ -5,12 +5,16 @@
   var cellModule = require('./cell.js');
   var liveCell = cellModule.liveCell;
   var deadCell = cellModule.deadCell;
+  var zombieCell = cellModule.zombieCell;
   var coordinates = require('./coordinates.js');
 
   liveCell.addAction = function(x, y, board) {
     board.push(coordinates(x, y, liveCell));
   };
   deadCell.addAction = function() { };
+  zombieCell.addAction = function(x, y, board) {
+    board.push(coordinates(x, y, zombieCell));
+  };
 
   function createCoordinates(hasALiveCell, x, y) {
     var cell = hasALiveCell ? liveCell : deadCell;

@@ -3,21 +3,32 @@ var assert = require("assert");
 var should = require('should');
 var cell = require("../cell.js");
 
-function neighbors(numberAlive) {
+function neighbors(numberAlive, zombies) {
+  liveCell.numberOf = numberAlive;
+  zombieCell.numberOf = zombies;
+  deadCell.numberOf = 0;
   return {
-    numberAlive: function() {
-      return numberAlive;
+    numberOf: function(cell) {
+      return cell.numberOf;
     }
   };
 }
 
-var nextLifeCell, liveCell, deadCell;
+var nextLifeCell, liveCell, deadCell, zombieCell;
 function isAliveAction(nextLife) { nextLifeCell = nextLife; }
 
 beforeEach(function() {
   nextLifeCell = undefined;
   liveCell = cell.liveCell;
   deadCell = cell.deadCell;
+  zombieCell = cell.zombieCell;
+});
+
+describe('zombie cell', function() {
+  it('should not die even with no neighbors', function() {
+    zombieCell.nextLife(neighbors(0), isAliveAction);
+    nextLifeCell.should.equal(zombieCell);
+  });
 });
 
 describe('dead cell', function () {
@@ -40,6 +51,11 @@ describe('dead cell', function () {
 });
 
 describe('alive cell', function () {
+
+  it('should become a zombie with one zombie neighbor', function() {
+    liveCell.nextLife(neighbors(0, 1), isAliveAction);
+    nextLifeCell.should.equal(zombieCell);
+  });
 
   it('should stay alive with exactly 2 live neighbors', function() {
     liveCell.nextLife(neighbors(2), isAliveAction);

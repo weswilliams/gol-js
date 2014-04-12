@@ -6,6 +6,12 @@
 
   function parseRowPattern(rowPattern, rowIndex, action) {
     us.each(rowPattern.split(''), function (cellState, columnIndex) {
+      var cell;
+      switch (cellState) {
+        case "1": cell = cellModule.liveCell; break;
+        case "Z": cell = cellModule.zombieCell; break;
+        case "0": default: cell = cellModule.deadCell; break;
+      }
       var cell = (cellState === "1" ? cellModule.liveCell : cellModule.deadCell);
       action(columnIndex, rowIndex, cell);
     });

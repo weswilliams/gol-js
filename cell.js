@@ -11,7 +11,7 @@
     aliveInNextLife: function (neighbors, action) {
       var numberLive = neighbors.numberOf(liveCell);
       var stayAlive = numberLive === 2 || numberLive === 3;
-      stayAlive = neighbors.numberOf(zombieCell) === 1 ? "zombie" : stayAlive
+      stayAlive = neighbors.numberOf(zombieCell) === 1 ? "zombie" : stayAlive;
       action(stayAlive);
       return  stayAlive;
     }
