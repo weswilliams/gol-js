@@ -42,8 +42,11 @@
   };
 
   var liveCell = cell(liveCellRules, true);
+  liveCell.isAlive = function(action) { action(liveCell); };
   var deadCell = cell(deadCellRules, false);
+  deadCell.isAlive = function(action) { action(deadCell); };
   var zombieCell = cell(zombieCellRules, true);
+  zombieCell.isAlive = function(action) { action(zombieCell); };
 
   var nextLifeCell = {
     true: liveCell,

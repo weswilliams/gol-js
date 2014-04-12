@@ -1,6 +1,10 @@
 "use strict";
 var world = require("./world.js");
 var parser = require("./patternparser.js");
+var cellModule = require("./cell.js");
+var deadCell = cellModule.deadCell;
+var liveCell = cellModule.liveCell;
+var zombieCell = cellModule.zombieCell;
 var us = require("underscore");
 
 var exec = require('child_process').exec;
@@ -25,14 +29,12 @@ function clear() {
 }
 
 var pattern;
-var xLifeTypePrinters = {
-  true: "X",
-  false: " ",
-  zombie: "*"
-};
+deadCell.playPattern = " ";
+liveCell.playPattern = "X";
+zombieCell.playPattern = "!";
 
-function forEachX(isAlive) {
-  pattern += xLifeTypePrinters[isAlive];
+function forEachX(cell) {
+  pattern += cell.playPattern;
 }
 function forEachY() {
   pattern += "\n";

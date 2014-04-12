@@ -9,10 +9,9 @@
       var cell;
       switch (cellState) {
         case "1": cell = cellModule.liveCell; break;
-        case "Z": cell = cellModule.zombieCell; break;
+        case "!": cell = cellModule.zombieCell; break;
         case "0": default: cell = cellModule.deadCell; break;
       }
-      var cell = (cellState === "1" ? cellModule.liveCell : cellModule.deadCell);
       action(columnIndex, rowIndex, cell);
     });
   }

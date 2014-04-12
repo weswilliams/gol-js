@@ -3,19 +3,34 @@
 var world = require("../world.js");
 var parser = require("../patternparser.js");
 var liveCell = require("../cell.js").liveCell;
+var deadCell = require("../cell.js").deadCell;
+var zombieCell = require("../cell.js").zombieCell;
+
+liveCell.testPattern = "1";
+deadCell.testPattern = "0";
+zombieCell.testPattern = "!";
 
 var pattern;
 function onNewY() {
   pattern += "\n";
 }
-function onNewX(isAlive) {
-  pattern += isAlive ? "1" : "0";
+function onNewX(cell) {
+  pattern += cell.testPattern;
 }
 
 describe('world', function () {
 
   beforeEach(function() {
     pattern = "";
+  });
+
+  it("should handle zombie cells", function() {
+    var newWorld = world();
+    newWorld.addCellAt(0,0,liveCell);
+    newWorld.addCellAt(1,0,zombieCell);
+    newWorld.nextLife();
+    newWorld.patternFor({x: 0, y:0}, {x:1, y:0}, onNewX, onNewY);
+    pattern.trim().should.equal("!!");
   });
 
   it("should build a list of live cells with neighbors", function() {
