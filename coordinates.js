@@ -59,7 +59,6 @@
     return function (coordinateAction, rowAction) {
       us.each(dimensionRange(startCoordinates, endCoordinates, 'y'), function (yIndex) {
         us.each(dimensionRange(startCoordinates, endCoordinates, 'x'), function (xIndex) {
-          console.log("x: " + xIndex + ", y: " + yIndex);
           coordinateAction(xIndex, yIndex);
         });
         rowAction();
