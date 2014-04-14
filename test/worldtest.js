@@ -24,13 +24,13 @@ describe('world', function () {
     pattern = "";
   });
 
-  it('should be taken over by zombies', function() {
+  it('should not be taken over by zombies', function() {
     var newWorld = world();
     newWorld.addCellAt(1,1, liveCell);
     newWorld.addCellAt(2,1, zombieCell);
     newWorld.nextLife();
     newWorld.patternFor({x: 1, y: 0}, {x: 3, y: 2}, onNewX, onNewY);
-    pattern.trim().should.equal("!!!\n!!!\n!!!");
+    pattern.trim().should.equal("000\n!!0\n000");
   });
 
   it("should handle zombie cells", function() {

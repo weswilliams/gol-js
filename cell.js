@@ -30,7 +30,7 @@
         liveCell : deadCell;
     },
     aliveInNextLife: function (neighbors, action) {
-      action(becomesZombie(neighbors) ||
+      action(
         this.comesAlive(neighbors));
     }
   };
