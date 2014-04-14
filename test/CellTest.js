@@ -33,11 +33,6 @@ describe('zombie cell', function() {
 
 describe('dead cell', function () {
 
-  it('should become a zombie with a zombie neighbor', function() {
-    deadCell.nextLife(neighbors(0,1), isAliveAction);
-    nextLifeCell.should.equal(zombieCell);
-  });
-
   it('should stay dead with fewer than 3 live neighbors', function() {
     deadCell.nextLife(neighbors(2), isAliveAction);
     nextLifeCell.should.equal(deadCell);
