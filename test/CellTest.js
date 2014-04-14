@@ -3,22 +3,83 @@ var assert = require("assert");
 var should = require('should');
 var cell = require("../cell.js");
 
+function neighbors(numberAlive, zombies) {
+  liveCell.numberOf = numberAlive;
+  zombieCell.numberOf = zombies;
+  deadCell.numberOf = 0;
+  return {
+    numberOf: function(cell) {
+      return cell.numberOf;
+    }
+  };
+}
 
-describe('cell', function () {
+var nextLifeCell, liveCell, deadCell, zombieCell;
+function isAliveAction(nextLife) { nextLifeCell = nextLife; }
 
-  var deadCell, liveCell;
+beforeEach(function() {
+  nextLifeCell = undefined;
+  liveCell = cell.liveCell;
+  deadCell = cell.deadCell;
+  zombieCell = cell.zombieCell;
+});
 
-  before(function() {
-    deadCell = cell(false, 0, 1);
-    liveCell = cell(true, 0, 1);
+describe('zombie cell', function() {
+  it('should not die even with no neighbors', function() {
+    zombieCell.nextLife(neighbors(0), isAliveAction);
+    nextLifeCell.should.equal(zombieCell);
+  });
+});
+
+describe('dead cell', function () {
+
+  it('should become a zombie with a zombie neighbor', function() {
+    deadCell.nextLife(neighbors(0,1), isAliveAction);
+    nextLifeCell.should.equal(zombieCell);
   });
 
-  it('should have a state', function () {
-    deadCell.state().should.equal(false);
+  it('should stay dead with fewer than 3 live neighbors', function() {
+    deadCell.nextLife(neighbors(2), isAliveAction);
+    nextLifeCell.should.equal(deadCell);
   });
 
-  it('should have coordinates', function () {
-    deadCell.x.should.equal(0);
-    deadCell.y.should.equal(1);
+  it('should stay dead with more than 3 live neighbors', function() {
+    deadCell.nextLife(neighbors(4), isAliveAction);
+    nextLifeCell.should.equal(deadCell);
   });
+
+  it('should come alive with exactly 3 live neighbors', function() {
+    deadCell.nextLife(neighbors(3), isAliveAction);
+    nextLifeCell.should.equal(liveCell);
+  });
+
+});
+
+describe('alive cell', function () {
+
+  it('should become a zombie with one zombie neighbor', function() {
+    liveCell.nextLife(neighbors(0, 1), isAliveAction);
+    nextLifeCell.should.equal(zombieCell);
+  });
+
+  it('should stay alive with exactly 2 live neighbors', function() {
+    liveCell.nextLife(neighbors(2), isAliveAction);
+    nextLifeCell.should.equal(liveCell);
+  });
+
+  it('should stay alive with exactly 3 live neighbors', function() {
+    liveCell.nextLife(neighbors(3), isAliveAction);
+    nextLifeCell.should.equal(liveCell);
+  });
+
+  it('should die with less than 2 live neighbors', function() {
+    liveCell.nextLife(neighbors(1), isAliveAction);
+    nextLifeCell.should.equal(deadCell);
+  });
+
+  it('should die with more than 3 live neighbors', function() {
+    liveCell.nextLife(neighbors(4), isAliveAction);
+    nextLifeCell.should.equal(deadCell);
+  });
+
 });

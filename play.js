@@ -1,13 +1,11 @@
 "use strict";
 var world = require("./world.js");
+var parser = require("./patternparser.js");
+var cellModule = require("./cell.js");
+var deadCell = cellModule.deadCell;
+var liveCell = cellModule.liveCell;
+var zombieCell = cellModule.zombieCell;
 var us = require("underscore");
-
-var spinners =
-  "\n" +
-  "010000111001100\n" +
-  "0100011100011\n" +
-  "010000000000011\n" +
-  "000000000000011";
 
 var exec = require('child_process').exec;
 var util = require("util");
@@ -19,7 +17,8 @@ var gameSpeed = process.argv[5] || 150;
 
 console.log("screen is " + width + "x" + height);
 console.log("pattern name is " + patternName);
-var game = world(require("./" + patternName));
+var game = world();
+parser(require("./" + patternName), function(x, y, isAlive) { game.addCellAt(x,y,isAlive); });
 
 function clear() {
   us.each(us.range(0,width), function() {
@@ -29,10 +28,25 @@ function clear() {
   });
 }
 
+var pattern;
+deadCell.playPattern = " ";
+liveCell.playPattern = "X";
+zombieCell.playPattern = "!";
+
+function forEachX(cell) {
+  pattern += cell.playPattern;
+}
+function forEachY() {
+  pattern += "\n";
+}
 setInterval(function(){
   clear();
+  var adjustForStatusLine = 2;
+  var adjustFor0Base = 1;
   game.nextLife();
-  var pattern = game.patternFor(
-    {x:0,y:0}, {x:width-1,y:height-1},"X", " ");
-  util.puts(pattern);
+  pattern = "";
+  game.patternFor({x:0,y:0}, {x:width-adjustFor0Base,y:height-adjustFor0Base-adjustForStatusLine},
+    forEachX, forEachY);
+  util.print(pattern);
+  util.print("life number: " + game.lifeCount());
 },gameSpeed);
