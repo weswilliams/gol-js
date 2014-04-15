@@ -35,8 +35,9 @@
     }
   };
 
-  var cell = function (rules) {
-    return {
+  var cell = function (rules, name) {
+    return module.exports[name] = {
+      name: name,
       nextLife: function (neighbors, action) {
         return rules.aliveInNextLife(neighbors, function(nextLife) {
           action(nextLife);
@@ -45,11 +46,11 @@
     };
   };
 
-  var liveCell = cell(liveCellRules);
-  var deadCell = cell(deadCellRules);
-  var zombieCell = cell(zombieCellRules);
+  var liveCell = cell(liveCellRules, "liveCell");
+  var deadCell = cell(deadCellRules, "deadCell");
+  var zombieCell = cell(zombieCellRules, "zombieCell");
 
-  module.exports.deadCell = deadCell;
-  module.exports.liveCell = liveCell;
-  module.exports.zombieCell = zombieCell;
+  module.exports.instance = function(json) {
+    return this[ JSON.parse(json).name ];
+  };
 })();

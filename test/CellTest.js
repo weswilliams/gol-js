@@ -25,6 +25,11 @@ beforeEach(function() {
 });
 
 describe('zombie cell', function() {
+
+  it("should be able to JSONify", function() {
+    cell.instance(JSON.stringify(zombieCell)).should.equal(zombieCell);
+  });
+
   it('should not die even with no neighbors', function() {
     zombieCell.nextLife(neighbors(0), isAliveAction);
     nextLifeCell.should.equal(zombieCell);
@@ -32,6 +37,10 @@ describe('zombie cell', function() {
 });
 
 describe('dead cell', function () {
+
+  it("should be able to JSONify", function() {
+    cell.instance(JSON.stringify(deadCell)).should.equal(deadCell);
+  });
 
   it('should stay dead with fewer than 3 live neighbors', function() {
     deadCell.nextLife(neighbors(2), isAliveAction);
@@ -51,6 +60,10 @@ describe('dead cell', function () {
 });
 
 describe('alive cell', function () {
+
+  it("should be able to JSONify", function() {
+    cell.instance(JSON.stringify(liveCell)).should.equal(liveCell);
+  });
 
   it('should become a zombie with one zombie neighbor', function() {
     liveCell.nextLife(neighbors(0, 1), isAliveAction);
