@@ -14,8 +14,8 @@ var pattern;
 function onNewY() {
   pattern += "\n";
 }
-function onNewX(cell) {
-  pattern += cell.testPattern;
+function onNewX(coordinates) {
+  pattern += coordinates.cell.testPattern;
 }
 
 describe('world', function () {

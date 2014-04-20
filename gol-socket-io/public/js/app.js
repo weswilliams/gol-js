@@ -1,21 +1,22 @@
 'use strict';
 
-
-
 requirejs.config({
-    paths: {}
+  paths: {}
 });
 
+require([], function () {
 
-require([/* Dependencies */], function () {
+  var app = {
+    initialize: function () {
 
-    var app = {
-        initialize: function () {
-            // Your code here
-        }
-    };
+    }
+  };
 
-    app.initialize();
+  app.initialize();
+
+});
+
+require(["./socket"], function(socket) {
 
 });
 

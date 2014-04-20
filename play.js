@@ -33,8 +33,8 @@ deadCell.playPattern = " ";
 liveCell.playPattern = "X";
 zombieCell.playPattern = "!";
 
-function forEachX(cell) {
-  pattern += cell.playPattern;
+function forEachX(coordinates) {
+  pattern += coordinates.cell.playPattern;
 }
 function forEachY() {
   pattern += "\n";
