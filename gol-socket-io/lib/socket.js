@@ -13,7 +13,6 @@ module.exports.listen = function(app) {
 
   io.sockets.on('connection', function (socket) {
     setInterval(function(){
-      //var num = Math.floor((Math.random()*100)+10);
       var liveCoordinates = [];
       game.patternFor({x:0,y:0},{x:24,y:24}, function(coordinates) {
         if (coordinates.cell === liveCell) {

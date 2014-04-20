@@ -28,6 +28,15 @@ define(function () {
     drawingContext.fillRect(x, y, cellSize, cellSize);
   }
 
+  function showCoordinate(coordinate) {
+    var x = coordinate.x * cellSize;
+    var y = coordinate.y * cellSize;
+    drawingContext.strokeStyle = 'rgba(242, 198, 65, 0.1)';
+    drawingContext.strokeRect(x, y, cellSize, cellSize);
+    drawingContext.fillStyle = 'rgb(242, 198, 65)';
+    drawingContext.fillRect(x, y, cellSize, cellSize);
+  }
+
   function clearBoard() {
     console.log("clear board");
     var x = 0, y = 0;
@@ -46,4 +55,10 @@ define(function () {
   createDrawingContext();
   clearBoard();
 
+  return function(liveCoordinates) {
+    clearBoard();
+    liveCoordinates.forEach(function(coordinate) {
+      showCoordinate(coordinate);
+    });
+  };
 });
