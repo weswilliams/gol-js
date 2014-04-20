@@ -1,21 +1,18 @@
 "use strict";
 define(function () {
-  var canvas, drawingContext, cellSize = 10, gridSize = 25;
+  var canvas, drawingContext, cellSize = 15, gridSize = 25;
 
   function createCanvas() {
-    console.log("create canvas");
     canvas = document.createElement('canvas');
     document.body.appendChild(canvas);
   }
 
   function resizeCanvas() {
-    console.log("resize canvas");
     canvas.height = cellSize * gridSize;
     canvas.width = cellSize * gridSize;
   }
 
   function createDrawingContext() {
-    console.log("create drawingContext");
     drawingContext = canvas.getContext('2d');
   }
 
@@ -38,7 +35,6 @@ define(function () {
   }
 
   function clearBoard() {
-    console.log("clear board");
     var x = 0, y = 0;
     while(y < gridSize) {
       x = 0;

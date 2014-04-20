@@ -20,6 +20,7 @@ module.exports.listen = function(app) {
         }
       }, function(){});
       socket.emit('ping', JSON.stringify(liveCoordinates));
+      game.nextLife();
     }, 500);
   });
 
