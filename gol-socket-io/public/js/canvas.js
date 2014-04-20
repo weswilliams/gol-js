@@ -1,6 +1,6 @@
 "use strict";
 define(function () {
-  var canvas, drawingContext, cellSize = 15, gridSize = 25;
+  var canvas, drawingContext, cellSize = 10, gridSize = 50;
 
   function createCanvas() {
     canvas = document.createElement('canvas');

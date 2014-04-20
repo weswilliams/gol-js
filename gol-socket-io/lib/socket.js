@@ -14,14 +14,14 @@ module.exports.listen = function(app) {
   io.sockets.on('connection', function (socket) {
     setInterval(function(){
       var liveCoordinates = [];
-      game.patternFor({x:0,y:0},{x:24,y:24}, function(coordinates) {
+      game.patternFor({x:0,y:0},{x:50,y:50}, function(coordinates) {
         if (coordinates.cell === liveCell) {
           liveCoordinates.push(coordinates);
         }
       }, function(){});
       socket.emit('ping', JSON.stringify(liveCoordinates));
       game.nextLife();
-    }, 500);
+    }, 250);
   });
 
   return io;
