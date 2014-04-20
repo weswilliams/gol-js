@@ -16,22 +16,21 @@ define(function () {
     drawingContext = canvas.getContext('2d');
   }
 
-  function clearCoordinate(coordinate) {
+  function drawAtCoordinate(coordinate, fillStyle) {
     var x = coordinate.x * cellSize;
     var y = coordinate.y * cellSize;
     drawingContext.strokeStyle = 'rgba(242, 198, 65, 0.1)';
     drawingContext.strokeRect(x, y, cellSize, cellSize);
-    drawingContext.fillStyle = 'rgb(38, 38, 38)';
+    drawingContext.fillStyle = fillStyle;
     drawingContext.fillRect(x, y, cellSize, cellSize);
   }
 
+  function clearCoordinate(coordinate) {
+    drawAtCoordinate(coordinate, 'rgb(38, 38, 38)');
+  }
+
   function showCoordinate(coordinate) {
-    var x = coordinate.x * cellSize;
-    var y = coordinate.y * cellSize;
-    drawingContext.strokeStyle = 'rgba(242, 198, 65, 0.1)';
-    drawingContext.strokeRect(x, y, cellSize, cellSize);
-    drawingContext.fillStyle = 'rgb(242, 198, 65)';
-    drawingContext.fillRect(x, y, cellSize, cellSize);
+    drawAtCoordinate(coordinate, 'rgb(242, 198, 65)');
   }
 
   function clearBoard() {
