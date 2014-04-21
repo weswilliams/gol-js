@@ -7,12 +7,17 @@ module.exports.listen = function(app) {
   var parser = require("../../patternparser.js");
   var world = require('../../world.js');
 
-  io.sockets.on('connection', function (socket) {
+  function createGameFor(patternName) {
     console.log('create new game');
     var game = world();
     console.log('load pattern ' + patternName);
     parser(require("../../" + patternName), function(x, y, isAlive) {
       game.addCellAt(x,y,isAlive); });
+    return game;
+  }
+
+  io.sockets.on('connection', function (socket) {
+    var game = createGameFor(patternName);
     console.log('setInterval');
     var interval = setInterval(function(){
       console.log('next interval');
