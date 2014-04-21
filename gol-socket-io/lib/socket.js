@@ -29,14 +29,16 @@ module.exports.listen = function (app) {
     game.nextLife();
   }
 
+  function endGameAt(interval) {
+    console.log('stop game interval');
+    clearInterval(interval);
+  }
+
   io.sockets.on('connection', function (socket) {
     var game = createGameFor(patternName);
     console.log('setInterval');
     var interval = setInterval(function() { nextLife(game, socket); }, 250);
-    socket.on('disconnect', function () {
-      console.log('stop interval');
-      clearInterval(interval);
-    });
+    socket.on('disconnect', function () { endGameAt(interval); });
   });
 
   return io;
