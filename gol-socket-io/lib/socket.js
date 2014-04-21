@@ -1,17 +1,17 @@
-"use strict";
+'use strict';
 module.exports.listen = function (app) {
 
   var io = require('socket.io').listen(app);
-  var patternName = "pulsar";
+  var patternName = 'pulsar';
   var liveCell = require('../../cell.js').liveCell;
-  var parser = require("../../patternparser.js");
+  var parser = require('../../patternparser.js');
   var world = require('../../world.js');
 
   function createGameFor(patternName) {
     console.log('create new game');
     var game = world();
     console.log('load pattern ' + patternName);
-    parser(require("../../" + patternName), function (x, y, isAlive) {
+    parser(require('../../' + patternName), function (x, y, isAlive) {
       game.addCellAt(x, y, isAlive);
     });
     return game;

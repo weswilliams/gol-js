@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 define(function () {
   var canvas, drawingContext, cellSize = 10, gridSize = 50;
 
