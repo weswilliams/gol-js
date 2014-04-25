@@ -18,7 +18,8 @@
     "requirejs": "~2.1.11",
     "adaro": "~0.1.5",
     "makara": "~0.3.4",
-    "less": "~1.7.0"
+    "less": "~1.7.0",
+    "gol-js": "git+https://github.com/weswilliams/gol-js.git"
   },
   "devDependencies": {
     "mocha": "^1.17.0",

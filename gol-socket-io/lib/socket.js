@@ -3,9 +3,10 @@ module.exports.listen = function (app) {
 
   var io = require('socket.io').listen(app);
   var patternName = 'pulsar';
-  var liveCell = require('../../cell.js').liveCell;
-  var parser = require('../../patternparser.js');
-  var world = require('../../world.js');
+  var gol = require('gol-js');
+  var liveCell = gol.liveCell;
+  var parser = gol.parser;
+  var world = gol.world;
 
   function createGameFor(patternName) {
     console.log('create new game');

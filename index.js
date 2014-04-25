@@ -7,7 +7,7 @@
   gameOfLife.parser = require('./patternparser.js');
   gameOfLife.world = require('./world.js');
   gameOfLife.pattern = function(patternName) {
-    return require('./patterName');
+    return require('./' + patternName);
   };
   module.exports = gameOfLife;
 })();
