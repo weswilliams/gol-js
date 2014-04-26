@@ -10,3 +10,5 @@ To run test
 ```bash
 npm test
 ```
+
+see build results at: https://travis-ci.org/weswilliams/gol-js
