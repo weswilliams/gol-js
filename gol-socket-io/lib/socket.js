@@ -7,12 +7,13 @@ module.exports.listen = function (app) {
   var liveCell = gol.liveCell;
   var parser = gol.parser;
   var world = gol.world;
+  var pattern = gol.pattern;
 
   function createGameFor(patternName) {
     console.log('create new game');
     var game = world();
     console.log('load pattern ' + patternName);
-    parser(require('../../' + patternName), function (x, y, isAlive) {
+    parser(pattern(patternName), function (x, y, isAlive) {
       game.addCellAt(x, y, isAlive);
     });
     return game;
