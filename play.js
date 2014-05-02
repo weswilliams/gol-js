@@ -23,7 +23,7 @@ parser(require("./" + patternName), function(x, y, isAlive) { game.addCellAt(x,y
 function clear() {
   us.each(us.range(0,width), function() {
     us.each(us.range(0,height), function(){
-      util.print(" ");
+      console.log(" ");
     });
   });
 }
@@ -47,6 +47,6 @@ setInterval(function(){
   pattern = "";
   game.patternFor({x:0,y:0}, {x:width-adjustFor0Base,y:height-adjustFor0Base-adjustForStatusLine},
     forEachX, forEachY);
-  util.print(pattern);
-  util.print("life number: " + game.lifeCount());
+  console.log(pattern);
+  console.log("life number: " + game.lifeCount());
 },gameSpeed);
